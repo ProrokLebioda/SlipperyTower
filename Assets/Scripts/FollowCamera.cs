@@ -17,29 +17,46 @@ public class FollowCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector3 delta = Vector3.zero;
-        
-        // This is to check if we're inside the bounds on the Y axis
-        float deltaY = lookAt.position.y - transform.position.y;
-        if (deltaY > boundY || deltaY < -boundY)
+        FollowPlayer();
+    }
+
+    private void FollowPlayer()
+    {
+        if (lookAt)
         {
-            if (transform.position.y < lookAt.position.y)
+            Vector3 delta = Vector3.zero;
+
+            // This is to check if we're inside the bounds on the Y axis
+            float deltaY = lookAt.position.y - transform.position.y;
+            if (deltaY > boundY || deltaY < -boundY)
             {
-                delta.y = deltaY - boundY;
-                isMoving = true;
+                if (transform.position.y < lookAt.position.y)
+                {
+                    delta.y = deltaY - boundY;
+                    isMoving = true;
+                }
+                //else
+                //{
+                //    delta.y = deltaY + boundY;
+                //}
             }
-            //else
-            //{
-            //    delta.y = deltaY + boundY;
-            //}
+            if (isMoving)
+            {
+                transform.position += new Vector3(0, delta.y + (cameraSpeed * Time.deltaTime), 0);
+            }
+            else
+            {
+                transform.position += new Vector3(0, delta.y, 0);
+            }
         }
-        if (isMoving)
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
         {
-            transform.position += new Vector3(0, delta.y+(cameraSpeed*Time.deltaTime), 0);
-        }
-        else
-        {
-            transform.position += new Vector3(0, delta.y, 0);
+            lookAt = null;
+            Destroy(collision.gameObject);
         }
     }
 
