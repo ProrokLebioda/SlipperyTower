@@ -5,17 +5,23 @@ using UnityEngine;
 public class PlayerWallBounce : MonoBehaviour
 {
     private Rigidbody2D rb;
+    public GameObject level0;
+    public GameObject playerGroundCheck;
     
-    private float bounceCooldown = 1.0f;
+    private float bounceCooldown = 5.0f;
     private float timeSinceLastBounce=0;
+
+    private float currentPlayerHeight;
 
     // Start is called before the first frame update
     Vector2 lastVelocity;
     LineRenderer line;
     void Start()
     {
+        timeSinceLastBounce = -bounceCooldown; //beacuse we check delta of current time and time since last compared to cooldown, we want to be larger than cooldown in first few seconds
         rb = GetComponent<Rigidbody2D>();
         line = new LineRenderer();
+        currentPlayerHeight = level0.transform.position.y;
     }
 
     // Update is called once per frame
@@ -48,10 +54,37 @@ public class PlayerWallBounce : MonoBehaviour
             //    rb.velocity
             //}
         }
+        if (collision.collider.tag == "Platform")
+        {
+            if (rb.velocity.normalized.y <= 0.0f && GetComponent<CharacterController2D>().IsGrounded() )
+            {
+                float platformHeight = collision.collider.gameObject.transform.position.y;
+                if (platformHeight > level0.transform.position.y)
+                {
+                    if (currentPlayerHeight < platformHeight)
+                    {
+                        float deltaHeight = platformHeight - currentPlayerHeight;
+                        currentPlayerHeight = platformHeight;
+                        GameManager.Instance.UpdateScore(Mathf.CeilToInt(deltaHeight));
+
+                    }
+                }
+            }
+        }
     }
 
+    // doesn't work perfectly, sometimes slow jumps are not recognised
     public void LandedOnPlatform()
     {
-        timeSinceLastBounce = 0;
+        timeSinceLastBounce = -bounceCooldown;
+        //if (playerGroundCheck.transform.position.y > level0.transform.position.y && rb.velocity.normalized.y <= 0.0f)
+        //{
+        //    float deltaHeight = playerGroundCheck.transform.position.y - currentPlayerHeight;
+        //    if (deltaHeight > 0.2f)
+        //    {
+        //        currentPlayerHeight = playerGroundCheck.transform.position.y;
+        //        GameManager.Instance.UpdateScore(Mathf.CeilToInt(deltaHeight));
+        //    }
+        //}
     }
 }
