@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public TMP_Text scoreText;
     private int scoreValue;
+    public GameObject restartButton;
 
 
     private void Awake()
@@ -36,4 +38,14 @@ public class GameManager : MonoBehaviour
         scoreText.text = scoreValue.ToString();
     }
 
+    public void OnPlayerDeath()
+    {
+        restartButton.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        restartButton.SetActive(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
