@@ -57,6 +57,7 @@ public class FollowCamera : MonoBehaviour
         {
             lookAt = null;
             Destroy(collision.gameObject);
+            GameManager.Instance.OnPlayerDeath();
         }
     }
 
