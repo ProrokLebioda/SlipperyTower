@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public TMP_Text scoreText;
     private int scoreValue;
-    public GameObject restartButton;
+    public GameObject gameMenu;
 
 
     private void Awake()
@@ -40,12 +40,17 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        restartButton.SetActive(true);
+        gameMenu.SetActive(true);
     }
 
-    public void RestartGame()
+    public void OnRestartPress()
     {
-        restartButton.SetActive(false);
+        gameMenu.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void OnExitToMenuPress()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
