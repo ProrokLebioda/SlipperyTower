@@ -60,9 +60,32 @@ public class GameManager : MonoBehaviour
     }
     public void AddNewScore(string entryName, int entryScore)
     {
+        // Work on sorted, otherwise there will be a mess
+        scores.Sort((HighscoreEntry x, HighscoreEntry y) => y.score.CompareTo(x.score));
         if (scores.Count < maxHighscoreEntries)
         {
             scores.Add(new HighscoreEntry { name = entryName, score = entryScore });
+            SaveScores();
+        }
+        else
+        {
+            int index = -1;
+            for (int i = scores.Count - 1; i >= 0; i--)
+            {
+                if (scores[i].score < scoreValue)
+                {
+                    index = i;
+                    continue;
+                }
+                break;
+            }
+
+            if (index > -1)
+            {
+                scores.Insert(index, new HighscoreEntry { name = entryName, score = scoreValue });
+                scores.RemoveAt(scores.Count-1);
+                SaveScores();
+            }
         }
     }
 
@@ -71,16 +94,19 @@ public class GameManager : MonoBehaviour
         gameMenu.SetActive(true);
 
         // if score is enough for highscore show new entry edit
-        highscoreAdd.SetActive(true);
-        scoreSaveValue.text = scoreValue.ToString();
-
+        if (scores.Count < maxHighscoreEntries || (scores.Count > 1 && scores[scores.Count-1].score < scoreValue))
+        {
+            highscoreAdd.SetActive(true);
+            scoreSaveValue.text = scoreValue.ToString();
+        }
 
     }
 
     public void OnSavePress()
     {
+        // Validate
         AddNewScore(nameInput.text, scoreValue);
-        SaveScores();
+        
     }
 
 
