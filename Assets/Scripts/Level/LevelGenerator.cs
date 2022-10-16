@@ -33,7 +33,7 @@ public class LevelGenerator : MonoBehaviour
         // test generate for 20 levels
         // from leftMostX and bottomY to rightMostX and sectionHeight
         //for (int y = bottomY; y < sectionHeight; y++)
-        for (int y = bottomY; y < testLevels; y++)
+        for (int y = bottomY; y <= testLevels; y++)
         {
             for (int x = leftMostX - 4; x < leftMostX; x++)
             {
