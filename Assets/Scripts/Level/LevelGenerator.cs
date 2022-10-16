@@ -13,10 +13,13 @@ public class LevelGenerator : MonoBehaviour
 
     public int sectionHeight = 20;
 
-    private int testLevels = 200;
+    public int testLevels = 200;
 
     public Tilemap platformTilemap;
-    public RuleTile ruleTile;
+    public Tilemap wallsTilemap;
+    public Tilemap collisionWallsTilemap;
+    public RuleTile platformRuleTile;
+    public RuleTile wallRuleTile;
     void Start()
     {
         GeneratePlatforms();
@@ -32,13 +35,18 @@ public class LevelGenerator : MonoBehaviour
         //for (int y = bottomY; y < sectionHeight; y++)
         for (int y = bottomY; y < testLevels; y++)
         {
+            for (int x = leftMostX - 4; x < leftMostX; x++)
+            {
+                wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
+            }
+
             // Section division deduce 1 to make it work
-            if (y > 0 && y % (sectionHeight-1) == 0)
+            if (y > 0 && y % (sectionHeight) == 0)
             {
                 horizontalSpacing = 1;
-                for (int x = leftMostX; x <= rightMostX; x += horizontalSpacing)
+                for (int x = leftMostX; x <= rightMostX; x++)
                 {
-                    platformTilemap.SetTile(new Vector3Int(x, y, 0), ruleTile);
+                    platformTilemap.SetTile(new Vector3Int(x, y, 0), platformRuleTile);
                 }
             }
             else
@@ -46,7 +54,12 @@ public class LevelGenerator : MonoBehaviour
                 // Add some code to handle drawing tiles for normal platforms
                 //
                 PlaceRandomPlatforms(y);
-            }            
+            }
+
+            for (int x = rightMostX + 1 ; x <= rightMostX+4; x++)
+            {
+                wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
+            }
         }
     }
 
@@ -75,7 +88,7 @@ public class LevelGenerator : MonoBehaviour
 
         for (int x = leftEdgeOfPlatform; x <= leftEdgeOfPlatform+rightMostX; x += 1)
         {
-            platformTilemap.SetTile(new Vector3Int(x, y, 0), ruleTile);
+            platformTilemap.SetTile(new Vector3Int(x, y, 0), platformRuleTile);
         }
     }
 
