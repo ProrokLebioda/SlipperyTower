@@ -59,6 +59,12 @@ public class FollowCamera : MonoBehaviour
             Destroy(collision.gameObject);
             GameManager.Instance.OnPlayerDeath();
         }
+        else if (collision.tag == "Platform")
+        {
+            Debug.Log("Platform hit");
+            Destroy(collision.gameObject); // put in object pool maybe?
+        }
     }
 
+    
 }
