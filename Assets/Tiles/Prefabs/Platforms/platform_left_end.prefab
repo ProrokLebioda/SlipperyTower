@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2047753879299698938}
   - component: {fileID: 2047753879299698941}
   - component: {fileID: 2047753879299698940}
-  m_Layer: 0
+  - component: {fileID: -645072198597928319}
+  m_Layer: 8
   m_Name: platform_left_end
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -131,3 +132,24 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!50 &-645072198597928319
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047753879299698937}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 7
