@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
     public void OnPlayerDeath()
     {
         gameMenu.SetActive(true);
-
+        gameMenu.transform.Find("RestartButton").GetComponent<Button>().Select();
         // if score is enough for highscore show new entry edit
         if (scores.Count < maxHighscoreEntries || (scores.Count > 1 && scores[scores.Count-1].score < scoreValue))
         {

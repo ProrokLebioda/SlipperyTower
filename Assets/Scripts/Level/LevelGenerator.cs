@@ -39,7 +39,7 @@ public class LevelGenerator : MonoBehaviour
 
         if (player != null)
         {
-            int playerY = Mathf.RoundToInt(player.transform.position.y);
+            int playerY = Mathf.RoundToInt(playerCamera.transform.position.y);
             if (playerY > (currentPlayerSection * sectionHeight + (sectionHeight / 2)))
             {
                 
