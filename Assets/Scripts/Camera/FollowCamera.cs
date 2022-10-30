@@ -61,7 +61,6 @@ public class FollowCamera : MonoBehaviour
         }
         else if (collision.tag == "Platform")
         {
-            Debug.Log("Platform hit");
             Destroy(collision.gameObject); // put in object pool maybe?
         }
     }
