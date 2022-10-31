@@ -3627,15 +3627,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c98a398ba175ce428bab313accfd28d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMenu: {fileID: 1476758560}
+  comboBar: {fileID: 2078258524}
+  highscoreAdd: {fileID: 18708586}
   scoreText: {fileID: 1654408080}
   nameInput: {fileID: 1154369614}
-  gameMenu: {fileID: 1476758560}
-  highscoreAdd: {fileID: 18708586}
   scoreSaveValue: {fileID: 635406722}
-  comboBar: {fileID: 2078258524}
   comboDuration: 3
-  current: 0
-  mask: {fileID: 1154602558}
+  currentFill: 0
+  comboBarMask: {fileID: 1154602558}
 --- !u!4 &610769413
 Transform:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class PlayerWallBounce : MonoBehaviour
     LineRenderer line;
     void Start()
     {
-        timeSinceLastBounce = -bounceCooldown; //beacuse we check delta of current time and time since last compared to cooldown, we want to be larger than cooldown in first few seconds
+        timeSinceLastBounce = -bounceCooldown; //beacuse we check delta of currentFill time and time since last compared to cooldown, we want to be larger than cooldown in first few seconds
         rb = GetComponent<Rigidbody2D>();
         line = new LineRenderer();
         currentPlayerHeight = level0.transform.position.y;

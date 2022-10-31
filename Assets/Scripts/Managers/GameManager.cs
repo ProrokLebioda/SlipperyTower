@@ -9,23 +9,30 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager Instance;
+    
+    // UI
+    public GameObject gameMenu;
+    public GameObject comboBar;
+    public GameObject highscoreAdd;
+
+    // Score
     public TMP_Text scoreText;
     private int scoreValue;
     public TMP_InputField nameInput;
-    public GameObject gameMenu;
-    public GameObject highscoreAdd;
     public TMP_Text scoreSaveValue;
     private List<HighscoreEntry> scores = new List<HighscoreEntry>();
     private int maxHighscoreEntries = 8;
 
-    public GameObject comboBar;
 
+    // Combo
     public float comboDuration = 3f;
     private bool isCombo = false;
-    private float lastShown;
-    public float current = 0;
-    public Image mask;
-    private int comboMultiplier = 1;
+    public float currentFill = 0;
+    private int baseComboMultiplier = 1;
+    private int currentComboMultiplier = 1;
+    public Image comboBarMask;
+    private int levelsInCombo = 0;
+    private int levelsForComboIncrease = 30;
 
     private Coroutine comboCoroutine;
 
@@ -56,22 +63,20 @@ public class GameManager : MonoBehaviour
         if (comboBar.activeSelf)
         {
             GetCurrentFill();
+            comboBar.transform.Find("ComboValue").GetComponent<TMP_Text>().SetText(currentComboMultiplier.ToString());
         }
-
-        //if (isCombo && Time.time - lastShown > comboDuration)
-        //{
-        //    isCombo = false;
-        //}
+                
         float timerSpeed = comboDuration / 100f;
-        Debug.Log("Current: " + current + " when enter");
-        Debug.Log("Timer Speed: " + timerSpeed + " when enter");
-        while (current > 0)
+        //Debug.Log("Current: " + currentFill + " when enter");
+        //Debug.Log("Timer Speed: " + timerSpeed + " when enter");
+        while (currentFill > 0)
         {
-            current -= timerSpeed;
-        Debug.Log("Current: " + current + " inside");
-        Debug.Log("Timer Speed: " + timerSpeed + " inside");
-            if (current < 0)
-                current = 0;
+            currentFill -= timerSpeed;
+        //Debug.Log("Current: " + currentFill + " inside");
+        //Debug.Log("Timer Speed: " + timerSpeed + " inside");
+            if (currentFill < 0)
+                currentFill = 0;
+            comboBar.transform.Find("ComboValue").GetComponent<TMP_Text>().SetText(currentComboMultiplier.ToString());
             GetCurrentFill();
             yield return new WaitForSeconds(timerSpeed); // change to ms
         }
@@ -80,52 +85,59 @@ public class GameManager : MonoBehaviour
         Debug.Log("Combo ended");
         comboBar.SetActive(false);
         isCombo = false;
+        currentComboMultiplier = baseComboMultiplier;
+        levelsInCombo = 0;
         yield return null;
         
     }
 
     public void UpdateScore(int platformsJumped)
     {
-        //
-        // Calculate combo
-        //
+        if (isCombo)
+        {
+            levelsInCombo += platformsJumped;
+        }
         if (platformsJumped > 3)
         {
             if (comboCoroutine != null)
+            {
                 StopCoroutine(comboCoroutine);
+            }
 
-
-            current = comboDuration;
+            currentFill = comboDuration;
             if (!isCombo)
             {
-                comboMultiplier = CalculateCombo();
+                currentComboMultiplier = CalculateCombo(platformsJumped);
                 isCombo = true;
-                lastShown = Time.time;
             }
             else
             {
-                comboMultiplier = CalculateCombo();
-                lastShown = Time.time;
+                currentComboMultiplier = CalculateCombo(platformsJumped);
             }
             comboBar.SetActive(true);
             comboCoroutine = StartCoroutine(UpdateComboBar());
-
         }
         
 
-
-
-
-        ///
-
-        scoreValue += platformsJumped*comboMultiplier;
+        scoreValue += platformsJumped*currentComboMultiplier;
 
         scoreText.text = scoreValue.ToString();
     }
 
-    private int CalculateCombo()
+    private int CalculateCombo(int platformsJumped)
     {
-        return 1;
+        int levelsNeeded = levelsForComboIncrease * currentComboMultiplier;
+        if (levelsInCombo > 0 && levelsInCombo - levelsNeeded > 0)
+        {
+            levelsInCombo -= levelsNeeded;
+            currentComboMultiplier*=2;
+
+        }
+        if (currentComboMultiplier == 1)
+            currentComboMultiplier++;
+
+        return currentComboMultiplier;
+
     }
 
     public void SaveScores()
@@ -162,7 +174,7 @@ public class GameManager : MonoBehaviour
             if (index > -1)
             {
                 scores.Insert(index, new HighscoreEntry { name = entryName, score = scoreValue });
-                scores.RemoveAt(scores.Count-1);
+                scores.RemoveAt(scores.Count - 1);
                 SaveScores();
             }
         }
@@ -170,8 +182,18 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
+        if (comboCoroutine != null)
+        {
+            isCombo = false;
+            baseComboMultiplier = 1;
+            levelsInCombo = 0;
+            StopCoroutine(comboCoroutine);
+        }
+        comboBar.SetActive(false);
+
         gameMenu.SetActive(true);
         gameMenu.transform.Find("RestartButton").GetComponent<Button>().Select();
+
         // if score is enough for highscore show new entry edit
         if (scores.Count < maxHighscoreEntries || (scores.Count > 1 && scores[scores.Count-1].score < scoreValue))
         {
@@ -204,8 +226,8 @@ public class GameManager : MonoBehaviour
 
     public void GetCurrentFill()
     {
-        float fillAmount = current / comboDuration;
-        mask.fillAmount = fillAmount;
+        float fillAmount = currentFill / comboDuration;
+        comboBarMask.fillAmount = fillAmount;
     }
 
 }
