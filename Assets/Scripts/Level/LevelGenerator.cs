@@ -23,6 +23,9 @@ public class LevelGenerator : MonoBehaviour
     public RuleTile platformRuleTile;
     public RuleTile wallRuleTile;
 
+
+    public GameObject levelIndicator;
+
     public GameObject playerCamera;
 
     private GameObject player;
@@ -65,36 +68,44 @@ public class LevelGenerator : MonoBehaviour
 
     private void GeneratePlatforms()
     {
-        // test generate for 20 levels
-        // from leftMostX and bottomY to rightMostX and sectionHeight
-        //for (int y = bottomY; y < sectionHeight; y++)
-        for (int y = bottomY; y <= sectionHeight; y++)
-        {
-            for (int x = leftMostX - 4; x < leftMostX; x++)
-            {
-                wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-            }
+        GeneratePlatforms(bottomY, sectionHeight);
+        //// test generate for 20 levels
+        //// from leftMostX and bottomY to rightMostX and sectionHeight
+        ////for (int y = bottomY; y < sectionHeight; y++)
+        //for (int y = bottomY; y <= sectionHeight; y++)
+        //{
+        //    for (int x = leftMostX - 4; x < leftMostX; x++)
+        //    {
+        //        wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
 
-            //Section division
-            if (y > 0 && y % (sectionHeight) == 0)
-            {
-                for (int x = leftMostX; x <= rightMostX; x++)
-                {
-                    platformTilemap.SetTile(new Vector3Int(x, y, 0), platformRuleTile);
-                }
-            }
-            else
-            {
-                // Add some code to handle drawing tiles for normal platforms
-                //
-                PlaceRandomPlatforms(y);
-            }
+        //    }
 
-            for (int x = rightMostX + 1 ; x <= rightMostX+4; x++)
-            {
-                wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-            }
-        }
+        //    //Section division
+        //    if (y > 0 && y % (sectionHeight) == 0)
+        //    {
+        //        for (int x = leftMostX; x <= rightMostX; x++)
+        //        {
+        //            platformTilemap.SetTile(new Vector3Int(x, y, 0), platformRuleTile);
+        //            if (x == (leftMostX + rightMostX) / 2)
+        //            {
+        //                GameObject go = Instantiate(levelIndicator, new Vector3(x, y, 0), Quaternion.identity);
+        //                LevelText lt = go.GetComponent<LevelText>();
+        //                lt.SetText(y.ToString());
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // Add some code to handle drawing tiles for normal platforms
+        //        //
+        //        PlaceRandomPlatforms(y);
+        //    }
+
+        //    for (int x = rightMostX + 1 ; x <= rightMostX+4; x++)
+        //    {
+        //        wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
+        //    }
+        //}
     }
 
     private void GeneratePlatforms(int fromY,int toY)
@@ -107,6 +118,7 @@ public class LevelGenerator : MonoBehaviour
             for (int x = leftMostX - 4; x < leftMostX; x++)
             {
                 wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
+                
             }
 
             // Section division 
@@ -115,6 +127,13 @@ public class LevelGenerator : MonoBehaviour
                 for (int x = leftMostX; x <= rightMostX; x++)
                 {
                     platformTilemap.SetTile(new Vector3Int(x, y, 0), platformRuleTile);
+
+                    if (x == (leftMostX + rightMostX) / 2)
+                    {
+                        GameObject go = Instantiate(levelIndicator, new Vector3(x, y, 0), Quaternion.identity);
+                        LevelText lt = go.GetComponent<LevelText>();
+                        lt.SetText(y.ToString());
+                    }
                 }
             }
             else
