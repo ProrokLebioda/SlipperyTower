@@ -6298,13 +6298,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5609609057d288e45b2094ec89c7f9c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sectionHeight: 10
+  sectionHeight: 50
   startSectionLevels: 20
   platformTilemap: {fileID: 596520096}
   wallsTilemap: {fileID: 588188933}
   collisionWallsTilemap: {fileID: 190738846}
   platformRuleTile: {fileID: 11400000, guid: 982f531f9f1d0d747a59371ac9cc486b, type: 2}
   wallRuleTile: {fileID: 11400000, guid: a55a9279a24b9c8468e89435d6cd22ec, type: 2}
+  levelIndicator: {fileID: 7219269488327993074, guid: 194b24e7b7d07854f9d5ae22467a9083, type: 3}
   playerCamera: {fileID: 519420028}
 --- !u!4 &1710517071
 Transform:
