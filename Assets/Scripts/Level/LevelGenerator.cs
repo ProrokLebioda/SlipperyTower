@@ -51,9 +51,9 @@ public class LevelGenerator : MonoBehaviour
                 //workswonky for some reason...
                 GeneratePlatforms((sectionHeight + 1) + sectionHeight * (currentPlayerSection), (sectionHeight) + sectionHeight * (currentPlayerSection + 1));
                 currentPlayerSection++;
-                if (currentPlayerSection > 1 )
+                if (currentPlayerSection >= 1 && currentPlayerSection < platformRuleTiles.Length )
                 {
-                    currentRuleBrush = platformRuleTiles[currentPlayerSection%4];
+                    currentRuleBrush = platformRuleTiles[currentPlayerSection];
                 }
 
                 if (platformSize >= 4 && currentPlayerSection % 5 == 0)

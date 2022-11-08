@@ -6298,8 +6298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5609609057d288e45b2094ec89c7f9c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sectionHeight: 50
-  startSectionLevels: 20
+  sectionHeight: 20
+  startSectionLevels: 0
   platformTilemap: {fileID: 596520096}
   wallsTilemap: {fileID: 588188933}
   collisionWallsTilemap: {fileID: 190738846}
