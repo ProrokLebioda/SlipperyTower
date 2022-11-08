@@ -20,7 +20,8 @@ public class LevelGenerator : MonoBehaviour
     public Tilemap platformTilemap;
     public Tilemap wallsTilemap;
     public Tilemap collisionWallsTilemap;
-    public RuleTile platformRuleTile;
+    private RuleTile currentRuleBrush;
+    public RuleTile[] platformRuleTiles;
     public RuleTile wallRuleTile;
 
 
@@ -31,8 +32,9 @@ public class LevelGenerator : MonoBehaviour
     private GameObject player;
     void Start()
     {
-        GeneratePlatforms();
+        currentRuleBrush = platformRuleTiles[0];
         player = GameObject.FindWithTag("Player");
+        GeneratePlatforms();
 
     }
 
@@ -49,6 +51,11 @@ public class LevelGenerator : MonoBehaviour
                 //workswonky for some reason...
                 GeneratePlatforms((sectionHeight + 1) + sectionHeight * (currentPlayerSection), (sectionHeight) + sectionHeight * (currentPlayerSection + 1));
                 currentPlayerSection++;
+                if (currentPlayerSection >= 1 && currentPlayerSection < platformRuleTiles.Length )
+                {
+                    currentRuleBrush = platformRuleTiles[currentPlayerSection];
+                }
+
                 if (platformSize >= 4 && currentPlayerSection % 5 == 0)
                     platformSize--;
 
@@ -58,10 +65,6 @@ public class LevelGenerator : MonoBehaviour
                 }
             }
 
-            //if (playerY > currentPlayerSection * sectionHeight + sectionHeight)
-            //{
-               
-            //}
         }
     }
 
@@ -69,50 +72,10 @@ public class LevelGenerator : MonoBehaviour
     private void GeneratePlatforms()
     {
         GeneratePlatforms(bottomY, sectionHeight);
-        //// test generate for 20 levels
-        //// from leftMostX and bottomY to rightMostX and sectionHeight
-        ////for (int y = bottomY; y < sectionHeight; y++)
-        //for (int y = bottomY; y <= sectionHeight; y++)
-        //{
-        //    for (int x = leftMostX - 4; x < leftMostX; x++)
-        //    {
-        //        wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-
-        //    }
-
-        //    //Section division
-        //    if (y > 0 && y % (sectionHeight) == 0)
-        //    {
-        //        for (int x = leftMostX; x <= rightMostX; x++)
-        //        {
-        //            platformTilemap.SetTile(new Vector3Int(x, y, 0), platformRuleTile);
-        //            if (x == (leftMostX + rightMostX) / 2)
-        //            {
-        //                GameObject go = Instantiate(levelIndicator, new Vector3(x, y, 0), Quaternion.identity);
-        //                LevelText lt = go.GetComponent<LevelText>();
-        //                lt.SetText(y.ToString());
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Add some code to handle drawing tiles for normal platforms
-        //        //
-        //        PlaceRandomPlatforms(y);
-        //    }
-
-        //    for (int x = rightMostX + 1 ; x <= rightMostX+4; x++)
-        //    {
-        //        wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-        //    }
-        //}
     }
 
     private void GeneratePlatforms(int fromY,int toY)
     {
-        // test generate for 20 levels
-        // from leftMostX and bottomY to rightMostX and sectionHeight
-        //for (int y = bottomY; y < sectionHeight; y++)
         for (int y = fromY; y <= toY; y++)
         {
             for (int x = leftMostX - 4; x < leftMostX; x++)
@@ -126,7 +89,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 for (int x = leftMostX; x <= rightMostX; x++)
                 {
-                    platformTilemap.SetTile(new Vector3Int(x, y, 0), platformRuleTile);
+                    platformTilemap.SetTile(new Vector3Int(x, y, 0), currentRuleBrush);
 
                     if (x == (leftMostX + rightMostX) / 2)
                     {
@@ -174,7 +137,7 @@ public class LevelGenerator : MonoBehaviour
 
         for (int x = leftEdgeOfPlatform; x <= leftEdgeOfPlatform + platformSize; x += 1)
         {
-            platformTilemap.SetTile(new Vector3Int(x, y, 0), platformRuleTile);
+            platformTilemap.SetTile(new Vector3Int(x, y, 0), currentRuleBrush);
         }
     }
 
