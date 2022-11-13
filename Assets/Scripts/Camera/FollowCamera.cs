@@ -55,6 +55,9 @@ public class FollowCamera : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+
+            int floor = Mathf.FloorToInt(GameObject.Find("Player").GetComponent<PlayerWallBounce>().CurrentPlayerHeight);
+            GameManager.Instance.PlayerFloor = floor;
             lookAt = null;
             Destroy(collision.gameObject);
             GameManager.Instance.OnPlayerDeath();

@@ -27,14 +27,20 @@ public class LevelGenerator : MonoBehaviour
 
     public GameObject levelIndicator;
 
+    
+    public GameObject highestLevelReachedAsset;
+
     public GameObject playerCamera;
+    private int highestFloorReached;
 
     private GameObject player;
     void Start()
     {
         currentRuleBrush = platformRuleTiles[0];
         player = GameObject.FindWithTag("Player");
+        highestFloorReached = GameManager.Instance.HighestFloorReached;
         GeneratePlatforms();
+        
 
     }
 
@@ -137,6 +143,13 @@ public class LevelGenerator : MonoBehaviour
 
         for (int x = leftEdgeOfPlatform; x <= leftEdgeOfPlatform + platformSize; x += 1)
         {
+            if (y == highestFloorReached && x == leftEdgeOfPlatform + 1 ) 
+            {
+                // for now place flag for highest reached floor on second from left
+                GameObject go = Instantiate(highestLevelReachedAsset, new Vector3(x, y+1, 0), Quaternion.identity); // +1 for y, because of difference between grid and coord system
+                LevelText lt = go.GetComponent<LevelText>();
+                lt.SetText(y.ToString());
+            }
             platformTilemap.SetTile(new Vector3Int(x, y, 0), currentRuleBrush);
         }
     }
