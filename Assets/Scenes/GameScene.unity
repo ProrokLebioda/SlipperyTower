@@ -6310,6 +6310,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1cf6e3d8bee15b44d8c1970e3c0de148, type: 2}
   wallRuleTile: {fileID: 11400000, guid: a55a9279a24b9c8468e89435d6cd22ec, type: 2}
   levelIndicator: {fileID: 7219269488327993074, guid: 194b24e7b7d07854f9d5ae22467a9083, type: 3}
+  highestLevelReachedAsset: {fileID: 7219269488327993074, guid: 8eeb4c4299c362d4abcb5b0355d2512b, type: 3}
   playerCamera: {fileID: 519420028}
 --- !u!4 &1710517071
 Transform:

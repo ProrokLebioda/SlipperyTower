@@ -16,12 +16,15 @@ public class PlayerWallBounce : MonoBehaviour
     // Start is called before the first frame update
     Vector2 lastVelocity;
     LineRenderer line;
+
+    public float CurrentPlayerHeight { get => currentPlayerHeight; set => currentPlayerHeight = value; }
+
     void Start()
     {
         timeSinceLastBounce = -bounceCooldown; //beacuse we check delta of currentFill time and time since last compared to cooldown, we want to be larger than cooldown in first few seconds
         rb = GetComponent<Rigidbody2D>();
         line = new LineRenderer();
-        currentPlayerHeight = level0.transform.position.y;
+        CurrentPlayerHeight = level0.transform.position.y;
     }
 
     // Update is called once per frame
@@ -61,10 +64,10 @@ public class PlayerWallBounce : MonoBehaviour
                 float platformHeight = collision.collider.gameObject.transform.position.y;
                 if (platformHeight > level0.transform.position.y)
                 {
-                    if (currentPlayerHeight < platformHeight)
+                    if (CurrentPlayerHeight < platformHeight)
                     {
-                        float deltaHeight = platformHeight - currentPlayerHeight;
-                        currentPlayerHeight = platformHeight;
+                        float deltaHeight = platformHeight - CurrentPlayerHeight;
+                        CurrentPlayerHeight = platformHeight;
                         GameManager.Instance.UpdateScore(Mathf.CeilToInt(deltaHeight));
 
                     }

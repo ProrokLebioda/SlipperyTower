@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreSaveValue;
     private List<HighscoreEntry> scores = new List<HighscoreEntry>();
     private int maxHighscoreEntries = 8;
+    private int playerFloor;
 
 
     // Combo
@@ -36,6 +38,11 @@ public class GameManager : MonoBehaviour
 
     private Coroutine comboCoroutine;
 
+
+    private int highestFloorReached;
+    public int HighestFloorReached { get => highestFloorReached; set => highestFloorReached = value; }
+    public int PlayerFloor { get => playerFloor; set => playerFloor = value; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -49,6 +56,7 @@ public class GameManager : MonoBehaviour
     {
         scoreValue = 0;
         scoreText.text = "0";
+        PlayerFloor = -1;
 
         // update highscore
     }
@@ -142,20 +150,33 @@ public class GameManager : MonoBehaviour
 
     public void SaveScores()
     {
+        scores.Sort((HighscoreEntry x, HighscoreEntry y) => y.score.CompareTo(x.score));
         XMLManager.instance.SaveScores(scores);
     }
 
     public void LoadScores()
     {
         scores = XMLManager.instance.LoadScores();
-    }
-    public void AddNewScore(string entryName, int entryScore)
-    {
         // Work on sorted, otherwise there will be a mess
         scores.Sort((HighscoreEntry x, HighscoreEntry y) => y.score.CompareTo(x.score));
+        if (scores.Count > 0)
+        {
+            int maxFloor = -1;
+            foreach(HighscoreEntry score in scores)
+            {
+                maxFloor = score.floor > maxFloor ? score.floor : maxFloor;
+            }
+
+            highestFloorReached = maxFloor;
+        }
+    }
+    public void AddNewScore(string entryName, int entryScore, int entryFloor)
+    {
+        // Work on sorted, otherwise there will be a mess
+        //scores.Sort((HighscoreEntry x, HighscoreEntry y) => y.score.CompareTo(x.score));
         if (scores.Count < maxHighscoreEntries)
         {
-            scores.Add(new HighscoreEntry { name = entryName, score = entryScore });
+            scores.Add(new HighscoreEntry { name = entryName, score = entryScore, floor = entryFloor});
             SaveScores();
         }
         else
@@ -173,7 +194,7 @@ public class GameManager : MonoBehaviour
 
             if (index > -1)
             {
-                scores.Insert(index, new HighscoreEntry { name = entryName, score = scoreValue });
+                scores.Insert(index, new HighscoreEntry { name = entryName, score = scoreValue, floor = entryFloor });
                 scores.RemoveAt(scores.Count - 1);
                 SaveScores();
             }
@@ -206,7 +227,7 @@ public class GameManager : MonoBehaviour
     public void OnSavePress()
     {
         // Validate
-        AddNewScore(nameInput.text, scoreValue);
+        AddNewScore(nameInput.text, scoreValue, PlayerFloor);
         
     }
 
