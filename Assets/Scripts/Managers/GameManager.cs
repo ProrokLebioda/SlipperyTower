@@ -228,7 +228,8 @@ public class GameManager : MonoBehaviour
     {
         // Validate
         AddNewScore(nameInput.text, scoreValue, PlayerFloor);
-        
+        highscoreAdd.SetActive(false);
+
     }
 
 
