@@ -220,6 +220,7 @@ public class GameManager : MonoBehaviour
         {
             highscoreAdd.SetActive(true);
             scoreSaveValue.text = scoreValue.ToString();
+            gameMenu.transform.Find("HighscoreAdd/NameEdit").GetComponent<TMP_InputField>().Select();
         }
 
     }
@@ -229,7 +230,7 @@ public class GameManager : MonoBehaviour
         // Validate
         AddNewScore(nameInput.text, scoreValue, PlayerFloor);
         highscoreAdd.SetActive(false);
-
+        gameMenu.transform.Find("RestartButton").GetComponent<Button>().Select();
     }
 
 
