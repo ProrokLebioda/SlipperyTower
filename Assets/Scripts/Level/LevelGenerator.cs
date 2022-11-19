@@ -37,7 +37,11 @@ public class LevelGenerator : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Check player position
+        UpdatePlatformsBasedOnPlayerPosition();
+    }
+
+    private void UpdatePlatformsBasedOnPlayerPosition()
+    {
         if (player != null)
         {
             int playerY = Mathf.RoundToInt(playerCamera.transform.position.y);
@@ -46,7 +50,7 @@ public class LevelGenerator : MonoBehaviour
                 //workswonky for some reason...
                 GeneratePlatforms((sectionHeight + 1) + sectionHeight * (currentPlayerSection), (sectionHeight) + sectionHeight * (currentPlayerSection + 1));
                 currentPlayerSection++;
-                if (currentPlayerSection >= 1 && currentPlayerSection < platformRuleTiles.Length )
+                if (currentPlayerSection >= 1 && currentPlayerSection < platformRuleTiles.Length)
                 {
                     currentRuleBrush = platformRuleTiles[currentPlayerSection];
                 }
@@ -81,20 +85,10 @@ public class LevelGenerator : MonoBehaviour
             }
             else
             {
-                // Add some code to handle drawing tiles for normal platforms
-                //
                 PlaceRandomPlatforms(y);
             }
 
             PlaceWalls(rightMostX + 1, rightMostX + 4, y);            
-        }
-    }
-
-    private void PlaceWalls(int y)
-    {
-        for (int x = leftMostX - 4; x < leftMostX; x++)
-        {
-            wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
         }
     }
 

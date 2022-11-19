@@ -5,25 +5,21 @@ using UnityEngine;
 public class PlayerWallBounce : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public GameObject level0;
-    public GameObject playerGroundCheck;
-    
     private float bounceCooldown = 5.0f;
     private float timeSinceLastBounce=0;
-
     private float currentPlayerHeight;
+    private Vector2 lastVelocity;
+
+    public GameObject level0;
+    public GameObject playerGroundCheck;
+    public float CurrentPlayerHeight { get => currentPlayerHeight; private set => currentPlayerHeight = value; }
+
 
     // Start is called before the first frame update
-    Vector2 lastVelocity;
-    LineRenderer line;
-
-    public float CurrentPlayerHeight { get => currentPlayerHeight; set => currentPlayerHeight = value; }
-
     void Start()
     {
         timeSinceLastBounce = -bounceCooldown; //beacuse we check delta of currentFill time and time since last compared to cooldown, we want to be larger than cooldown in first few seconds
         rb = GetComponent<Rigidbody2D>();
-        line = new LineRenderer();
         CurrentPlayerHeight = level0.transform.position.y;
     }
 
@@ -32,7 +28,6 @@ public class PlayerWallBounce : MonoBehaviour
     {
         lastVelocity = rb.velocity;
         Debug.DrawLine(rb.position, rb.position + rb.velocity);
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
