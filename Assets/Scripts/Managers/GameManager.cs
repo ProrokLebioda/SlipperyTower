@@ -8,7 +8,6 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager Instance;
     
     // UI
@@ -17,27 +16,26 @@ public class GameManager : MonoBehaviour
     public GameObject highscoreAdd;
 
     // Score
-    public TMP_Text scoreText;
     private int scoreValue;
-    public TMP_InputField nameInput;
-    public TMP_Text scoreSaveValue;
     private List<HighscoreEntry> scores = new List<HighscoreEntry>();
     private int maxHighscoreEntries = 8;
     private int playerFloor;
+    public TMP_Text scoreText;
+    public TMP_InputField nameInput;
+    public TMP_Text scoreSaveValue;
 
 
     // Combo
-    public float comboDuration = 3f;
     private bool isCombo = false;
-    public float currentFill = 0;
     private int baseComboMultiplier = 1;
     private int currentComboMultiplier = 1;
-    public Image comboBarMask;
     private int levelsInCombo = 0;
     private int levelsForComboIncrease = 30;
+    public float comboDuration = 3f;
+    public float currentFill = 0;
+    public Image comboBarMask;
 
     private Coroutine comboCoroutine;
-
 
     private int highestFloorReached;
     public int HighestFloorReached { get => highestFloorReached; set => highestFloorReached = value; }
@@ -57,8 +55,6 @@ public class GameManager : MonoBehaviour
         scoreValue = 0;
         scoreText.text = "0";
         PlayerFloor = -1;
-
-        // update highscore
     }
 
     // Update is called once per frame
@@ -75,13 +71,9 @@ public class GameManager : MonoBehaviour
         }
                 
         float timerSpeed = comboDuration / 100f;
-        //Debug.Log("Current: " + currentFill + " when enter");
-        //Debug.Log("Timer Speed: " + timerSpeed + " when enter");
         while (currentFill > 0)
         {
             currentFill -= timerSpeed;
-        //Debug.Log("Current: " + currentFill + " inside");
-        //Debug.Log("Timer Speed: " + timerSpeed + " inside");
             if (currentFill < 0)
                 currentFill = 0;
             comboBar.transform.Find("ComboValue").GetComponent<TMP_Text>().SetText(currentComboMultiplier.ToString());
@@ -89,14 +81,12 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(timerSpeed); // change to ms
         }
 
-
         Debug.Log("Combo ended");
         comboBar.SetActive(false);
         isCombo = false;
         currentComboMultiplier = baseComboMultiplier;
         levelsInCombo = 0;
         yield return null;
-        
     }
 
     public void UpdateScore(int platformsJumped)
@@ -125,10 +115,8 @@ public class GameManager : MonoBehaviour
             comboBar.SetActive(true);
             comboCoroutine = StartCoroutine(UpdateComboBar());
         }
-        
 
         scoreValue += platformsJumped*currentComboMultiplier;
-
         scoreText.text = scoreValue.ToString();
     }
 
@@ -145,7 +133,6 @@ public class GameManager : MonoBehaviour
             currentComboMultiplier++;
 
         return currentComboMultiplier;
-
     }
 
     public void SaveScores()
@@ -173,7 +160,6 @@ public class GameManager : MonoBehaviour
     public void AddNewScore(string entryName, int entryScore, int entryFloor)
     {
         // Work on sorted, otherwise there will be a mess
-        //scores.Sort((HighscoreEntry x, HighscoreEntry y) => y.score.CompareTo(x.score));
         if (scores.Count < maxHighscoreEntries)
         {
             scores.Add(new HighscoreEntry { name = entryName, score = entryScore, floor = entryFloor});
@@ -222,7 +208,6 @@ public class GameManager : MonoBehaviour
             scoreSaveValue.text = scoreValue.ToString();
             gameMenu.transform.Find("HighscoreAdd/NameEdit").GetComponent<TMP_InputField>().Select();
         }
-
     }
 
     public void OnSavePress()
@@ -232,7 +217,6 @@ public class GameManager : MonoBehaviour
         highscoreAdd.SetActive(false);
         gameMenu.transform.Find("RestartButton").GetComponent<Button>().Select();
     }
-
 
     public void OnRestartPress()
     {
@@ -246,11 +230,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-
     public void GetCurrentFill()
     {
         float fillAmount = currentFill / comboDuration;
         comboBarMask.fillAmount = fillAmount;
     }
-
 }

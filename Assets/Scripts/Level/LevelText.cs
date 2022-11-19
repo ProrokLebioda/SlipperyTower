@@ -5,25 +5,13 @@ using UnityEngine;
 
 public class LevelText : MonoBehaviour
 {
-
-    public TMP_Text levelText;
-
-    private void OnEnable()
-    {
-        
-    }
+    public TMP_Text m_levelText;
 
     // Start is called before the first frame update
     void Start()
     {
 
     }
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
 
     public void PlaceAtPosition(Vector2 position)
     {
@@ -32,6 +20,6 @@ public class LevelText : MonoBehaviour
 
     public void SetText(string text)
     {
-        levelText.text = text;
+        m_levelText.text = text;
     }
 }

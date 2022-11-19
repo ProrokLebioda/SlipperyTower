@@ -36,7 +36,6 @@ public class XMLManager : MonoBehaviour
         return leaderboard.list;
     }
 
-
     [System.Serializable]
     public class Leaderboard
     {

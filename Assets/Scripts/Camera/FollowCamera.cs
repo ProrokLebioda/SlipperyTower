@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-
     private Transform lookAt;
-    public float boundY = 5f;
     private bool isMoving = false;
+
+    public float boundY = 5f;
     public float cameraSpeed = 0.2f;
 
     private void Start()
@@ -35,10 +35,6 @@ public class FollowCamera : MonoBehaviour
                     delta.y = deltaY - boundY;
                     isMoving = true;
                 }
-                //else
-                //{
-                //    delta.y = deltaY + boundY;
-                //}
             }
             if (isMoving)
             {
@@ -55,7 +51,6 @@ public class FollowCamera : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-
             int floor = Mathf.FloorToInt(GameObject.Find("Player").GetComponent<PlayerWallBounce>().CurrentPlayerHeight);
             GameManager.Instance.PlayerFloor = floor;
             lookAt = null;
@@ -67,6 +62,4 @@ public class FollowCamera : MonoBehaviour
             Destroy(collision.gameObject); // put in object pool maybe?
         }
     }
-
-    
 }

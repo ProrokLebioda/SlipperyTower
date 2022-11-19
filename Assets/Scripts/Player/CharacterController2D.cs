@@ -23,7 +23,6 @@ public class CharacterController2D : MonoBehaviour
 	[System.Serializable]
 	public class BoolEvent : UnityEvent<bool> { }
 
-
 	private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -50,7 +49,6 @@ public class CharacterController2D : MonoBehaviour
 			}
 		}
 	}
-
 
 	public void Move(float move, bool jump)
 	{
@@ -86,7 +84,6 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-
 	private void Flip()
 	{
 		// Switch the way the player is labelled as facing.
@@ -99,5 +96,4 @@ public class CharacterController2D : MonoBehaviour
 	}
 
 	public bool IsGrounded() => m_Grounded;
-	
 }
