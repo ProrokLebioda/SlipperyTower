@@ -2134,18 +2134,18 @@ CompositeCollider2D:
   m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
-    - - {x: -5.0000253, y: -0.00001}
-      - {x: -5.0000253, y: 72.000015}
-      - {x: -6.00001, y: 71.99998}
-      - {x: -5.9999747, y: -0.00001}
-    - - {x: 5.9999747, y: -0.00001}
-      - {x: 5.9999747, y: 72.000015}
-      - {x: 4.99999, y: 71.99998}
-      - {x: 5.0000253, y: -0.00001}
-    - - {x: -1.0000252, y: 1.99999}
-      - {x: -1.0000252, y: 3.00001}
-      - {x: -4.00001, y: 2.9999747}
-      - {x: -3.9999747, y: 1.99999}
+    - - {x: 5.999971, y: 0}
+      - {x: 5.999971, y: 72}
+      - {x: 5, y: 71.99997}
+      - {x: 5.000029, y: 0}
+    - - {x: -5.000029, y: 0}
+      - {x: -5.000029, y: 72}
+      - {x: -6, y: 71.99997}
+      - {x: -5.999971, y: 0}
+    - - {x: -1.0000293, y: 2}
+      - {x: -1.0000293, y: 3}
+      - {x: -4, y: 2.999971}
+      - {x: -3.999971, y: 2}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!19719996 &190738851
@@ -3536,28 +3536,20 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 608666848}
     m_ColliderPaths:
-    - - X: -50000100
-        Y: 10000041
-      - X: -50000100
-        Y: -41
-      - X: -50000041
-        Y: -100
-      - X: 70000041
-        Y: -100
-      - X: 70000100
-        Y: -41
-      - X: 70000100
-        Y: 10000041
-      - X: 70000041
-        Y: 10000100
-      - X: -50000041
-        Y: 10000100
+    - - X: -50000000
+        Y: 0
+      - X: 70000000
+        Y: 0
+      - X: 70000000
+        Y: 10000000
+      - X: -50000000
+        Y: 10000000
   m_CompositePaths:
     m_Paths:
-    - - {x: 6.9999743, y: -0.00001}
-      - {x: 6.9999743, y: 1.00001}
-      - {x: -5.00001, y: 0.9999748}
-      - {x: -4.9999747, y: -0.00001}
+    - - {x: 6.9999704, y: 0}
+      - {x: 6.9999704, y: 1}
+      - {x: -5, y: 0.99997073}
+      - {x: -4.999971, y: 0}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!19719996 &608666848
@@ -6312,15 +6304,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sectionHeight: 20
   startSectionLevels: 0
-  platformTilemap: {fileID: 596520096}
-  wallsTilemap: {fileID: 588188933}
-  collisionWallsTilemap: {fileID: 190738846}
   platformRuleTiles:
   - {fileID: 11400000, guid: 982f531f9f1d0d747a59371ac9cc486b, type: 2}
   - {fileID: 11400000, guid: 016ad1e39661e294691b778f80c21ec5, type: 2}
   - {fileID: 11400000, guid: 39b155418d2aca94e88c38a6c174270d, type: 2}
   - {fileID: 11400000, guid: 1cf6e3d8bee15b44d8c1970e3c0de148, type: 2}
   wallRuleTile: {fileID: 11400000, guid: a55a9279a24b9c8468e89435d6cd22ec, type: 2}
+  platformTilemap: {fileID: 596520096}
+  wallsTilemap: {fileID: 588188933}
+  collisionWallsTilemap: {fileID: 190738846}
   levelIndicator: {fileID: 7219269488327993074, guid: 194b24e7b7d07854f9d5ae22467a9083, type: 3}
   highestLevelReachedAsset: {fileID: 7219269488327993074, guid: 8eeb4c4299c362d4abcb5b0355d2512b, type: 3}
   playerCamera: {fileID: 519420028}

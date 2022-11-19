@@ -39,38 +39,43 @@ public class PlayerWallBounce : MonoBehaviour
     {
         if (collision.collider.tag == "Wall")
         {
-            if (Time.time - timeSinceLastBounce > bounceCooldown)
-            {
-                var speed = lastVelocity.magnitude;
-                var direction = Vector2.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
-                //rb.AddForce(new Vector2 (direction.x * (speed + 200), direction.y ));
-                if (Mathf.Abs(speed) > 5 && rb.velocity.y > 0)
-                {
-                    var bounceForce = (speed*2);
-                    //rb.velocity = new Vector2(direction.x * (speed + 80), direction.y + 30);
-                    rb.velocity = new Vector2(direction.x * bounceForce, direction.y * bounceForce); // doesn't feel right
-                    timeSinceLastBounce = Time.time;
-                }
-            }
-            //else
-            //{
-            //    rb.velocity
-            //}
+            HandleCollisionWithWall(collision);
         }
         if (collision.collider.tag == "Platform")
         {
-            if (rb.velocity.normalized.y <= 0.0f && GetComponent<CharacterController2D>().IsGrounded() )
-            {
-                float platformHeight = collision.collider.gameObject.transform.position.y;
-                if (platformHeight > level0.transform.position.y)
-                {
-                    if (CurrentPlayerHeight < platformHeight)
-                    {
-                        float deltaHeight = platformHeight - CurrentPlayerHeight;
-                        CurrentPlayerHeight = platformHeight;
-                        GameManager.Instance.UpdateScore(Mathf.CeilToInt(deltaHeight));
+            HandleCollisionWithPlatform(collision);
+        }
+    }
 
-                    }
+    private void HandleCollisionWithWall(Collision2D collision)
+    {
+        if (Time.time - timeSinceLastBounce > bounceCooldown)
+        {
+            var speed = lastVelocity.magnitude;
+            var direction = Vector2.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
+            //rb.AddForce(new Vector2 (direction.x * (speed + 200), direction.y ));
+            if (Mathf.Abs(speed) > 5 && rb.velocity.y > 0)
+            {
+                var bounceForce = (speed * 2);
+                //rb.velocity = new Vector2(direction.x * (speed + 80), direction.y + 30);
+                rb.velocity = new Vector2(direction.x * bounceForce, direction.y * bounceForce); // doesn't feel right
+                timeSinceLastBounce = Time.time;
+            }
+        }
+    }
+
+    private void HandleCollisionWithPlatform(Collision2D collision)
+    {
+        if (rb.velocity.normalized.y <= 0.0f && GetComponent<CharacterController2D>().IsGrounded())
+        {
+            float platformHeight = collision.collider.gameObject.transform.position.y;
+            if (platformHeight > level0.transform.position.y)
+            {
+                if (CurrentPlayerHeight < platformHeight)
+                {
+                    float deltaHeight = platformHeight - CurrentPlayerHeight;
+                    CurrentPlayerHeight = platformHeight;
+                    GameManager.Instance.UpdateScore(Mathf.CeilToInt(deltaHeight));
                 }
             }
         }
@@ -80,14 +85,5 @@ public class PlayerWallBounce : MonoBehaviour
     public void LandedOnPlatform()
     {
         timeSinceLastBounce = -bounceCooldown;
-        //if (playerGroundCheck.transform.position.y > level0.transform.position.y && rb.velocity.normalized.y <= 0.0f)
-        //{
-        //    float deltaHeight = playerGroundCheck.transform.position.y - currentPlayerHeight;
-        //    if (deltaHeight > 0.2f)
-        //    {
-        //        currentPlayerHeight = playerGroundCheck.transform.position.y;
-        //        GameManager.Instance.UpdateScore(Mathf.CeilToInt(deltaHeight));
-        //    }
-        //}
     }
 }
