@@ -27,6 +27,8 @@ public class LevelGenerator : MonoBehaviour
     public GameObject highestLevelReachedAsset;
     public GameObject playerCamera;
 
+    public GameObject Background;
+
     void Start()
     {
         currentRuleBrush = platformRuleTiles[0];
@@ -90,7 +92,21 @@ public class LevelGenerator : MonoBehaviour
 
             PlaceWalls(rightMostX + 1, rightMostX + 4, y);            
         }
+        PlaceBackground(fromY);
     }
+
+    private void PlaceBackground(int fromY)
+    {
+        GameObject go = BackgroundPool.Instance.GetPooledGameObject();
+        if (go != null)
+        {
+            Background bg = go.GetComponent<Background>();
+            bg.PlaceAtPosition(new Vector2(0, fromY));
+            go.SetActive(true);
+        }
+    }
+
+
 
     private void PlaceWalls(int from, int to, int y)
     {
