@@ -2225,7 +2225,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1886241295
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3163,7 +3163,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -627108213
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -6316,6 +6316,7 @@ MonoBehaviour:
   levelIndicator: {fileID: 7219269488327993074, guid: 194b24e7b7d07854f9d5ae22467a9083, type: 3}
   highestLevelReachedAsset: {fileID: 7219269488327993074, guid: 8eeb4c4299c362d4abcb5b0355d2512b, type: 3}
   playerCamera: {fileID: 519420028}
+  Background: {fileID: 5276904701021581381, guid: 469659e473e2f5e4483598742c6104c3, type: 3}
 --- !u!4 &1710517071
 Transform:
   m_ObjectHideFlags: 0
