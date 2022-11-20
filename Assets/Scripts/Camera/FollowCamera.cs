@@ -61,5 +61,9 @@ public class FollowCamera : MonoBehaviour
         {
             Destroy(collision.gameObject); // put in object pool maybe?
         }
+        else if (collision.tag == "Background")
+        {
+            collision.gameObject.SetActive(false);
+        }
     }
 }

@@ -97,10 +97,16 @@ public class LevelGenerator : MonoBehaviour
 
     private void PlaceBackground(int fromY)
     {
-        GameObject go = Instantiate(Background, new Vector3(0, fromY, 0), Quaternion.identity);
-        Background bg = go.GetComponent<Background>();
-        bg.PlaceAtPosition(new Vector2(0, fromY));
+        GameObject go = BackgroundPool.Instance.GetPooledGameObject();
+        if (go != null)
+        {
+            Background bg = go.GetComponent<Background>();
+            bg.PlaceAtPosition(new Vector2(0, fromY));
+            go.SetActive(true);
+        }
     }
+
+
 
     private void PlaceWalls(int from, int to, int y)
     {
