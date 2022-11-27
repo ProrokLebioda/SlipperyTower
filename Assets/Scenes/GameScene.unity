@@ -2179,6 +2179,7 @@ GameObject:
   - component: {fileID: 196705611}
   - component: {fileID: 196705612}
   - component: {fileID: 196705613}
+  - component: {fileID: 196705614}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -2227,7 +2228,7 @@ SpriteRenderer:
   m_SortingLayerID: 1886241295
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 481078422, guid: 419266116dedf7148a4cfddf2d7cd50c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2247,7 +2248,7 @@ Transform:
   m_GameObject: {fileID: 196705604}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.36, y: 1.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 347072733}
@@ -2309,6 +2310,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 196705611}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnLanding
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &196705611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2321,6 +2334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9115e49f7bc211d4286cef572bc845d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 196705614}
   runSpeed: 60
 --- !u!70 &196705612
 CapsuleCollider2D:
@@ -2336,7 +2350,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.5, y: 1}
   m_Direction: 0
 --- !u!114 &196705613
 MonoBehaviour:
@@ -2352,6 +2366,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level0: {fileID: 612679639}
   playerGroundCheck: {fileID: 347072732}
+--- !u!95 &196705614
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196705604}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4763358007a2335429fa4d1de4685429, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &307762032
 GameObject:
   m_ObjectHideFlags: 0
@@ -2645,7 +2679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347072732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.211, z: 0}
+  m_LocalPosition: {x: 0, y: -0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
