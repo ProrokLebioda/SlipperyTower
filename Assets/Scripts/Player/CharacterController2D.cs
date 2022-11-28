@@ -45,7 +45,7 @@ public class CharacterController2D : MonoBehaviour
 			{
 				m_Grounded = true;
 				Debug.Log(m_Rigidbody2D.velocity.y);
-				if (!wasGrounded /*&& m_Grounded*/ && m_Rigidbody2D.velocity.y < 0f)
+				if (!wasGrounded && m_Rigidbody2D.velocity.y < 0f)
 					OnLandEvent.Invoke();
 			}
 		}

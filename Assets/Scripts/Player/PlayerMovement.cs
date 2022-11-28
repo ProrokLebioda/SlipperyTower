@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -22,18 +23,24 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            jump = true;
-            animator.SetBool("IsJumping", true);
-        }
+        animator.SetBool("IsJumping", jump);
+        
     }
 
-    public void OnLanding() => animator.SetBool("IsJumping", false);
+    public void OnLanding()
+    {
+        animator.SetBool("IsJumping", false);
+        jump = false;
+    }
+
+    public void OnMove(InputValue value) => horizontalMove = value.Get<Vector2>().x * runSpeed;
+
+    public void OnJump(InputValue value)
+    {
+        jump = true;
+    }
 
     private void FixedUpdate()
     {
