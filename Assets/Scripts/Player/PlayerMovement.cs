@@ -35,10 +35,22 @@ public class PlayerMovement : MonoBehaviour
         jump = false;
     }
 
-    public void OnMove(InputValue value) => horizontalMove = value.Get<Vector2>().x * runSpeed;
+    public void OnMove(InputValue value)
+    {
+        if (controller.IsGrounded())
+        {
+            // Find a way to trigger only once otherwise it's bad idea
+            FindObjectOfType<AudioManager>().Play("Steps");
+        }
+        horizontalMove = value.Get<Vector2>().x * runSpeed;
+    }
 
     public void OnJump(InputValue value)
     {
+        if (controller.IsGrounded())
+        {
+            FindObjectOfType<AudioManager>().Play("Jump");
+        }
         jump = true;
     }
 
