@@ -198,6 +198,8 @@ public class GameManager : MonoBehaviour
         }
         comboBar.SetActive(false);
 
+        FindObjectOfType<AudioManager>().Play("PlayerDeath");
+
         gameMenu.SetActive(true);
         gameMenu.transform.Find("RestartButton").GetComponent<Button>().Select();
 
