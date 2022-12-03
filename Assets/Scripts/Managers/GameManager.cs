@@ -41,11 +41,14 @@ public class GameManager : MonoBehaviour
     public int HighestFloorReached { get => highestFloorReached; set => highestFloorReached = value; }
     public int PlayerFloor { get => playerFloor; set => playerFloor = value; }
 
+    public GameObject particleObject;
+
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
 
+        particleObject.SetActive(false);
         LoadScores();
     }
 
@@ -114,6 +117,10 @@ public class GameManager : MonoBehaviour
             }
             comboBar.SetActive(true);
             comboCoroutine = StartCoroutine(UpdateComboBar());
+            //spawn particles
+            particleObject.transform.position = GameObject.Find("Player").transform.position;
+            particleObject.SetActive(false);
+            particleObject.SetActive(true);
         }
 
         scoreValue += platformsJumped*currentComboMultiplier;
