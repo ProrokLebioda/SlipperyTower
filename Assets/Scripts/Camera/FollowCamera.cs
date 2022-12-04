@@ -65,5 +65,9 @@ public class FollowCamera : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
         }
+        else if (collision.tag == "Coin")
+        {
+            collision.gameObject.SetActive(false);
+        }
     }
 }

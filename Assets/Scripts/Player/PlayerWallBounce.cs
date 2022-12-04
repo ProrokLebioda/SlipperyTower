@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,26 @@ public class PlayerWallBounce : MonoBehaviour
         {
             HandleCollisionWithPlatform(collision);
         }
+       
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Coin")
+        {
+            HandleCollisionWithCoin(collision);
+        }
+    }
+
+    private void HandleCollisionWithCoin(Collider2D collision)
+    {
+        int coinValue = collision.gameObject.GetComponent<Coin>().CoinValue;
+        if(coinValue > 0)
+        {
+            GameManager.Instance.AddGoldCoinValue(coinValue);
+        }
+        FindObjectOfType<AudioManager>().Play("CoinPickup");
+        collision.gameObject.SetActive(false);
     }
 
     private void HandleCollisionWithWall(Collision2D collision)

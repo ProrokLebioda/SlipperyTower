@@ -69,3 +69,9 @@ MonoBehaviour:
     pitch: 5
     loop: 0
     source: {fileID: 0}
+  - name: CoinPickup
+    clip: {fileID: 8300000, guid: e6d713512b758a345add72569bc2e175, type: 3}
+    volume: 0.447
+    pitch: 5
+    loop: 0
+    source: {fileID: 0}
