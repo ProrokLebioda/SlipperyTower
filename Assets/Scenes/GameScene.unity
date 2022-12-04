@@ -11113,6 +11113,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572169703}
   m_CullTransparentMesh: 1
+--- !u!1 &1616072272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1616072273}
+  - component: {fileID: 1616072274}
+  m_Layer: 0
+  m_Name: CoinsPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1616072273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616072272}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1616072274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616072272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5902342ef3325394087c27af95be4fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amountToPool: 80
+  coinPrefab: {fileID: 1387292587009814895, guid: 0ac0e330da9798742a71ad2f632497c7, type: 3}
 --- !u!1 &1654408078
 GameObject:
   m_ObjectHideFlags: 0
@@ -11292,6 +11338,7 @@ MonoBehaviour:
   highestLevelReachedAsset: {fileID: 7219269488327993074, guid: 8eeb4c4299c362d4abcb5b0355d2512b, type: 3}
   playerCamera: {fileID: 519420028}
   Background: {fileID: 5276904701021581381, guid: 469659e473e2f5e4483598742c6104c3, type: 3}
+  CoinObject: {fileID: 1387292587009814895, guid: 0ac0e330da9798742a71ad2f632497c7, type: 3}
 --- !u!4 &1710517071
 Transform:
   m_ObjectHideFlags: 0
@@ -11847,6 +11894,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2393089265898593696, guid: bab84f7a07ef7a348b087ce09e09b333, type: 3}
+      propertyPath: sounds.Array.data[4].pitch
+      value: 2.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393089265898593696, guid: bab84f7a07ef7a348b087ce09e09b333, type: 3}
+      propertyPath: sounds.Array.data[4].volume
+      value: 0.832
+      objectReference: {fileID: 0}
     - target: {fileID: 2393089265898593697, guid: bab84f7a07ef7a348b087ce09e09b333, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -92,6 +92,12 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
+    public void AddGoldCoinValue(int goldCoinValue)
+    {
+        scoreValue += goldCoinValue;
+        scoreText.text = scoreValue.ToString();
+    }
+
     public void UpdateScore(int platformsJumped)
     {
         if (isCombo)

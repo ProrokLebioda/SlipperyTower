@@ -29,6 +29,9 @@ public class LevelGenerator : MonoBehaviour
 
     public GameObject Background;
 
+    [SerializeField]
+    private GameObject CoinObject;
+
     void Start()
     {
         currentRuleBrush = platformRuleTiles[0];
@@ -78,7 +81,7 @@ public class LevelGenerator : MonoBehaviour
     {
         for (int y = fromY; y <= toY; y++)
         {
-            PlaceWalls(leftMostX - 4, leftMostX, y);
+            PlaceWalls(leftMostX - 6, leftMostX, y);
 
             // Section division 
             if (y > 0 && y % (sectionHeight) == 0)
@@ -89,10 +92,39 @@ public class LevelGenerator : MonoBehaviour
             {
                 PlaceRandomPlatforms(y);
             }
-
-            PlaceWalls(rightMostX + 1, rightMostX + 4, y);            
+            PlaceCoins(y);
+            PlaceWalls(rightMostX + 1, rightMostX + 7, y);            
         }
-        PlaceBackground(fromY);
+        PlaceBackground(fromY);        
+    }
+
+    private void PlaceCoins(int y)
+    {
+        if ( y % 2 == 0)
+            return;
+
+        //Random amount between min and max
+        int[] coinMask = new int[10];
+        for (int a = 0; a<10;a++)
+        {
+            int coinSpot = UnityEngine.Random.Range(0, 100);
+            coinMask[a] = coinSpot > 75? 1:0;
+        }
+
+        int spot = 0;
+        for (int x = leftMostX; x <= rightMostX; x ++)
+        {
+            if (coinMask[spot] != 0)
+            {
+                GameObject go = CoinsPool.Instance.GetPooledGameObject();
+                if (go != null)
+                {
+                    go.transform.position = new Vector2(x + .5f, y + .5f);
+                    go.SetActive(true);
+                }
+            }
+            spot++;
+        }
     }
 
     private void PlaceBackground(int fromY)
