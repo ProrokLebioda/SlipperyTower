@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -249,5 +248,10 @@ public class GameManager : MonoBehaviour
     {
         float fillAmount = currentFill / comboDuration;
         comboBarMask.fillAmount = fillAmount;
+    }
+
+    public void PauseMenu()
+    {
+        OnPlayerDeath();
     }
 }
