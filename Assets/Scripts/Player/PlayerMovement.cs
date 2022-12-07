@@ -59,4 +59,10 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(horizontalMove*Time.fixedDeltaTime, jump);
         jump = false;
     }
+
+    public void OnCancel(InputValue value)
+    {
+        Debug.Log("Esc");
+        GameManager.Instance.PauseMenu();
+    }
 }
