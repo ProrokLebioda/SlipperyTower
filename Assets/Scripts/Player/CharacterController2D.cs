@@ -44,11 +44,21 @@ public class CharacterController2D : MonoBehaviour
 			if (colliders[i].gameObject != gameObject)
 			{
 				m_Grounded = true;
-				Debug.Log(m_Rigidbody2D.velocity.y);
+				//Debug.Log(m_Rigidbody2D.velocity.y);
 				if (!wasGrounded && m_Rigidbody2D.velocity.y < 0f)
 					OnLandEvent.Invoke();
 			}
 		}
+	}
+
+    private void Update()
+    {
+		var maxVelocityY = 100f;
+		var velocity = gameObject.GetComponent<Rigidbody2D>().velocity;
+		if (velocity.y > maxVelocityY)
+			gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x, maxVelocityY);
+		Debug.Log("Velocity: " + velocity);
+
 	}
 
 	public void Move(float move, bool jump)

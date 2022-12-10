@@ -70,7 +70,7 @@ public class PlayerWallBounce : MonoBehaviour
             var speed = lastVelocity.magnitude;
             var direction = Vector2.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
             //rb.AddForce(new Vector2 (direction.x * (speed + 200), direction.y ));
-            if (Mathf.Abs(speed) > 5 && rb.velocity.y > 0)
+            if (Mathf.Abs(speed) > 5 && rb.velocity.y > 0 && direction.y > 0)
             {
                 var bounceForce = (speed * 2);
                 //rb.velocity = new Vector2(direction.x * (speed + 80), direction.y + 30);
