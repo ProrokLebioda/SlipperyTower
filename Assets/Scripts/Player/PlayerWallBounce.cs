@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWallBounce : MonoBehaviour
@@ -33,11 +30,11 @@ public class PlayerWallBounce : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Wall")
+        if (collision.collider.CompareTag("Wall"))
         {
             HandleCollisionWithWall(collision);
         }
-        if (collision.collider.tag == "Platform")
+        if (collision.collider.CompareTag("Platform"))
         {
             HandleCollisionWithPlatform(collision);
         }
@@ -46,7 +43,7 @@ public class PlayerWallBounce : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Coin")
+        if (collision.CompareTag("Coin"))
         {
             HandleCollisionWithCoin(collision);
         }
