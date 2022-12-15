@@ -32,7 +32,8 @@ public class PlayerMovement : MonoBehaviour
     public void OnLanding()
     {
         animator.SetBool("IsJumping", false);
-        jump = false;
+        //Debug.Log("Landed");
+        //jump = false;
     }
 
     public void OnMove(InputValue value)
@@ -50,8 +51,13 @@ public class PlayerMovement : MonoBehaviour
         if (controller.IsGrounded())
         {
             FindObjectOfType<AudioManager>().Play("Jump");
+            jump = true;
         }
-        jump = true;
+        else if(controller.CoyoteJump)
+        {
+            jump = true;
+        }
+        
     }
 
     private void FixedUpdate()
