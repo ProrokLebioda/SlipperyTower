@@ -10,9 +10,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     
     // UI
-    public GameObject gameMenu;
-    public GameObject comboBar;
-    public GameObject highscoreAdd;
+    [SerializeField] private GameObject gameMenu;
+    [SerializeField] private GameObject comboBar;
+    [SerializeField] private GameObject highscoreAdd;
+
+    // Pause menu
+    [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private GameObject _resumeButton;
 
     // Score
     private int scoreValue;
@@ -22,7 +26,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreText;
     public TMP_InputField nameInput;
     public TMP_Text scoreSaveValue;
-
+   
 
     // Combo
     private bool isCombo = false;
@@ -46,6 +50,7 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+        Time.timeScale = 1.0f;
 
         particleObject.SetActive(false);
         LoadScores();
@@ -234,6 +239,7 @@ public class GameManager : MonoBehaviour
 
     public void OnRestartPress()
     {
+        //Time.timeScale = 1.0f;
         gameMenu.SetActive(false);
         highscoreAdd.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -252,6 +258,16 @@ public class GameManager : MonoBehaviour
 
     public void PauseMenu()
     {
-        OnPlayerDeath();
+        //OnPlayerDeath();
+        Time.timeScale = 0.0f;
+        _pauseMenu.SetActive(true);
+        _pauseMenu.transform.Find("ResumeGameButton").GetComponent<Button>().Select();
+
     }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1.0f;
+        _pauseMenu.SetActive(false);
+    }    
 }
