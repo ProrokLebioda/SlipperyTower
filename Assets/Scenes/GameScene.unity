@@ -2296,7 +2296,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 503
   m_GroundCheck: {fileID: 347072733}
-  m_CoyoteTime: 0.02
+  m_CoyoteTime: 0.01
   OnLandEvent:
     m_PersistentCalls:
       m_Calls:
