@@ -11,16 +11,8 @@ public class Highscore : MonoBehaviour
 
     void Start()
     {
-        // Adds some test data
-        //AddNewScore("John", 4500);
-        //AddNewScore("Max", 5520);
-        //AddNewScore("Dave", 380);
-        //AddNewScore("Steve", 6654);
-        //AddNewScore("Mike", 11021);
-        //AddNewScore("Teddy", 3252);
         LoadScores();
         UpdateDisplay();
-        Debug.Log(Application.persistentDataPath);
     }
 
 

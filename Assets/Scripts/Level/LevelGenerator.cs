@@ -10,11 +10,14 @@ public class LevelGenerator : MonoBehaviour
     private readonly int rightMostX = 4;
     private readonly int bottomY = 1;
 
+    [SerializeField]
+    private int minimumPlatformWidth = 3;
     private int currentPlayerSection = 0;
     private int platformSize = 5;
     public int sectionHeight = 20;
     public int startSectionLevels = 20;
     private int highestFloorReached;
+
 
     private GameObject player;
     private RuleTile currentRuleBrush;
@@ -60,7 +63,7 @@ public class LevelGenerator : MonoBehaviour
                     currentRuleBrush = platformRuleTiles[currentPlayerSection];
                 }
 
-                if (platformSize >= 4 && currentPlayerSection % 5 == 0)
+                if (platformSize >= minimumPlatformWidth && currentPlayerSection % 5 == 0)
                     platformSize--;
 
                 if (currentPlayerSection % 3 == 0)

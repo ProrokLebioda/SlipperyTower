@@ -19,4 +19,13 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Highscore");
     }
+    public void OnCreditsPress()
+    {
+        SceneManager.LoadScene("Credits");
+    }
+
+    public void OnBackPress()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }
