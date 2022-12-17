@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1062888630795072461}
   - component: {fileID: 1062888630795072462}
   - component: {fileID: 1062888630795072463}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: platform_brick_default
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -44,7 +44,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -813,7 +813,7 @@ TextureImporter:
     nameFileIdTable:
       ice_middle: 1910412860
       jungle_default: -2142370393
-      wood_left: -210977837
+      dirt_middle: -282144741
       wood_right: -469865739
       stone_right: -1768661667
       stone_left: 283470145
@@ -842,7 +842,7 @@ TextureImporter:
       blue_left: -663549000
       slime_middle: -1131011955
       dirt_default: -1321823520
-      dirt_middle: -282144741
+      wood_left: -210977837
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

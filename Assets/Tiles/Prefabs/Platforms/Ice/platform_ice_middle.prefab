@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 967458574546264409}
   - component: {fileID: 967458574546264408}
   - component: {fileID: 967458574546264415}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: platform_ice_middle
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

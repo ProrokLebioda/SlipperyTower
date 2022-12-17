@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3076032359427055770}
   - component: {fileID: 3076032359427055771}
   - component: {fileID: 3076032359427055768}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: platform_slime_default
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

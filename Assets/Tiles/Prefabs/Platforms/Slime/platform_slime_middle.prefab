@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3831272788857480058}
   - component: {fileID: 3831272788857480059}
   - component: {fileID: 3831272788857480060}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: platform_slime_middle
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
