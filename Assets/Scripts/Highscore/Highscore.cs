@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Highscore : MonoBehaviour
 {
-    public HighscoreDisplay[] highscoreDisplayArray;
+    [SerializeField] private Button _defaultSelectedButton;
     private List<HighscoreEntry> scores = new List<HighscoreEntry>();
+    public HighscoreDisplay[] highscoreDisplayArray;
 
+    private void OnEnable()
+    {
+        _defaultSelectedButton.Select();
+    }
 
     void Start()
     {
