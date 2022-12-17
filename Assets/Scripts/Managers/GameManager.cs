@@ -258,11 +258,17 @@ public class GameManager : MonoBehaviour
 
     public void PauseMenu()
     {
-        //OnPlayerDeath();
-        Time.timeScale = 0.0f;
-        _pauseMenu.SetActive(true);
-        _pauseMenu.transform.Find("ResumeGameButton").GetComponent<Button>().Select();
-
+        if (!_pauseMenu.activeSelf)
+        {
+            //OnPlayerDeath();
+            Time.timeScale = 0.0f;
+            _pauseMenu.SetActive(true);
+            _pauseMenu.transform.Find("ResumeGameButton").GetComponent<Button>().Select();
+        }
+        else
+        {
+            ResumeGame();
+        }
     }
 
     public void ResumeGame()
