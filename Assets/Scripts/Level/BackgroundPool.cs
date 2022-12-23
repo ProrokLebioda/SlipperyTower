@@ -7,6 +7,7 @@ public class BackgroundPool : MonoBehaviour
     public static BackgroundPool Instance;
 
     private List<GameObject> pooledObjects = new List<GameObject>();
+    [SerializeField]
     private int amountToPool = 4;
 
     [SerializeField]
