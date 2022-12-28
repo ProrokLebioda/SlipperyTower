@@ -5,11 +5,17 @@ using UnityEngine;
 public class Background : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
+    private BoxCollider2D boxCollider;
+    [SerializeField]
+    private float backgroundHeight;
 
     private void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        
+        spriteRenderer.size = new Vector2(spriteRenderer.size.x, backgroundHeight);
+        boxCollider = GetComponent<BoxCollider2D>();
+        boxCollider.offset = new Vector2(boxCollider.offset.x ,Mathf.Ceil(spriteRenderer.size.y / 2));
+
     }
 
     // Start is called before the first frame update

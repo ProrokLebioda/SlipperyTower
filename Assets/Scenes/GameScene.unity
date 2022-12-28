@@ -11945,7 +11945,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimumPlatformWidth: 3
-  sectionHeight: 100
+  sectionHeight: 50
+  loadSectionHeight: 10
   startSectionLevels: 0
   platformRuleTiles:
   - {fileID: 11400000, guid: 982f531f9f1d0d747a59371ac9cc486b, type: 2}

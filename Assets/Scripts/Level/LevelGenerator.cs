@@ -15,6 +15,9 @@ public class LevelGenerator : MonoBehaviour
     private int currentPlayerSection = 0;
     private int platformSize = 5;
     public int sectionHeight = 20;
+    [SerializeField]
+    private int loadSectionHeight = 20;
+    private int currentLoadedSections = 0;
     public int startSectionLevels = 20;
     private int highestFloorReached;
 
@@ -35,17 +38,21 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private GameObject CoinObject;
 
+    private int oldPlayerY;
+
     void Start()
     {
         currentRuleBrush = platformRuleTiles[0];
         player = GameObject.FindWithTag("Player");
+        oldPlayerY = Mathf.RoundToInt(playerCamera.transform.position.y);
         highestFloorReached = GameManager.Instance.HighestFloorReached;
+        currentLoadedSections = 0;
         GeneratePlatforms();
     }
 
     private void FixedUpdate()
     {
-        UpdatePlatformsBasedOnPlayerPosition();
+        //UpdatePlatformsBasedOnPlayerPosition();
     }
 
     private void UpdatePlatformsBasedOnPlayerPosition()
@@ -53,31 +60,90 @@ public class LevelGenerator : MonoBehaviour
         if (player != null)
         {
             int playerY = Mathf.RoundToInt(playerCamera.transform.position.y);
-            if (playerY > (currentPlayerSection * sectionHeight + (sectionHeight / 2)))
+            if (oldPlayerY < playerY && playerY > currentLoadedSections)
             {
-                //workswonky for some reason...
-                GeneratePlatforms((sectionHeight + 1) + sectionHeight * (currentPlayerSection), (sectionHeight) + sectionHeight * (currentPlayerSection + 1));
-                currentPlayerSection++;
-                if (currentPlayerSection >= 1 && currentPlayerSection < platformRuleTiles.Length)
+                if (IsPlatformsLoadNeeded(playerY))
                 {
-                    currentRuleBrush = platformRuleTiles[currentPlayerSection];
-                }
+                    //workswonky for some reason...
+                    int fromLevel = (loadSectionHeight + 1) + loadSectionHeight * (currentPlayerSection);
+                    int toLevel = (loadSectionHeight) + loadSectionHeight * (currentPlayerSection + 1);
+                    GeneratePlatforms(fromLevel , toLevel );
+                    currentLoadedSections = toLevel;
+                    if (IsPlayerSectionIncreaseNeeded(playerY))
+                    {
+                        currentPlayerSection++;
+                    }
 
-                if (platformSize >= minimumPlatformWidth && currentPlayerSection % 5 == 0)
-                    platformSize--;
+                    if (IsRuleBrushSwitchNeeded())
+                    {
+                        currentRuleBrush = platformRuleTiles[currentPlayerSection];
+                    }
 
-                if (currentPlayerSection % 3 == 0)
-                {
-                    playerCamera.GetComponent<FollowCamera>().cameraSpeed += 0.2f;
+                    if (IsPlatfromSizeShrinkNeeded())
+                        platformSize--;
+
+                    if (IsCameraSpeedIncreaseNeeded())
+                    {
+                        playerCamera.GetComponent<FollowCamera>().cameraSpeed += 0.2f;
+                    }
                 }
+                oldPlayerY = playerY;
+
+                CleanupGrid();
             }
 
         }
     }
 
+    private void CleanupGrid()
+    {
+        // clean everything from below current section
+
+        for (int i = (currentPlayerSection-1) * sectionHeight; i > 0; i--)
+        {
+            for (int j = leftMostX - 6; j < leftMostX; j++)
+            {
+                wallsTilemap.SetTile(new Vector3Int(j, i, 0), null);
+            }
+            for (int j = leftMostX; j < rightMostX +1; j++)
+            {
+                platformTilemap.SetTile(new Vector3Int(j, i, 0), null);
+            }
+            for (int j = rightMostX + 1; j < rightMostX + 7; j++)
+            {
+                wallsTilemap.SetTile(new Vector3Int(j, i, 0), null);
+            }
+        }
+    }
+
+    private bool IsCameraSpeedIncreaseNeeded()
+    {
+        return currentPlayerSection % 3 == 0;
+    }
+
+    private bool IsPlatfromSizeShrinkNeeded()
+    {
+        return platformSize >= minimumPlatformWidth && currentPlayerSection % 5 == 0;
+    }
+
+    private bool IsPlayerSectionIncreaseNeeded(int playerY)
+    {
+        return playerY > (currentPlayerSection * sectionHeight);
+    }
+
+    private bool IsRuleBrushSwitchNeeded()
+    {
+        return currentPlayerSection >= 1 && currentPlayerSection < platformRuleTiles.Length;
+    }
+
+    private bool IsPlatformsLoadNeeded(int playerY)
+    {
+        return playerY > (currentPlayerSection * sectionHeight - (loadSectionHeight / 2));
+    }
+
     private void GeneratePlatforms()
     {
-        GeneratePlatforms(bottomY, sectionHeight);
+        GeneratePlatforms(bottomY, loadSectionHeight);
     }
 
     private void GeneratePlatforms(int fromY,int toY)
@@ -156,13 +222,17 @@ public class LevelGenerator : MonoBehaviour
         for (int x = leftMostX; x <= rightMostX; x++)
         {
             platformTilemap.SetTile(new Vector3Int(x, y, 0), currentRuleBrush);
+            PlaceLevelIndicator(y, x);
+        }
+    }
 
-            if (x == (leftMostX + rightMostX) / 2 && y > 0)
-            {
-                GameObject go = Instantiate(levelIndicator, new Vector3(x, y, 0), Quaternion.identity);
-                LevelText lt = go.GetComponent<LevelText>();
-                lt.SetText(y.ToString());
-            }
+    private void PlaceLevelIndicator(int y, int x)
+    {
+        if (x == (leftMostX + rightMostX) / 2 && y > 0)
+        {
+            GameObject go = Instantiate(levelIndicator, new Vector3(x, y, 0), Quaternion.identity);
+            LevelText lt = go.GetComponent<LevelText>();
+            lt.SetText(y.ToString());
         }
     }
 
@@ -186,19 +256,25 @@ public class LevelGenerator : MonoBehaviour
 
         for (int x = leftEdgeOfPlatform; x <= leftEdgeOfPlatform + platformSize; x += 1)
         {
-            if (y == highestFloorReached && x == leftEdgeOfPlatform + 1 ) 
-            {
-                // for now place flag for highest reached floor on second from left
-                GameObject go = Instantiate(highestLevelReachedAsset, new Vector3(x, y+1, 0), Quaternion.identity); // +1 for y, because of difference between grid and coord system
-                LevelText lt = go.GetComponent<LevelText>();
-                lt.SetText(y.ToString());
-            }
+            PlaceHighestLevelReachedSign(y, leftEdgeOfPlatform, x);
             platformTilemap.SetTile(new Vector3Int(x, y, 0), currentRuleBrush);
+        }
+    }
+
+    private void PlaceHighestLevelReachedSign(int y, int leftEdgeOfPlatform, int x)
+    {
+        if (y == highestFloorReached && x == leftEdgeOfPlatform + 1)
+        {
+            // for now place flag for highest reached floor on second from left
+            GameObject go = Instantiate(highestLevelReachedAsset, new Vector3(x, y + 1, 0), Quaternion.identity); // +1 for y, because of difference between grid and coord system
+            LevelText lt = go.GetComponent<LevelText>();
+            lt.SetText(y.ToString());
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdatePlatformsBasedOnPlayerPosition();
     }
 }
