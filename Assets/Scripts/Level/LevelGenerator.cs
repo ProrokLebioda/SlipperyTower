@@ -6,29 +6,45 @@ using UnityEngine.Tilemaps;
 
 public class LevelGenerator : MonoBehaviour
 {
-    private readonly int leftMostX = -5;
-    private readonly int rightMostX = 4;
-    private readonly int bottomY = 1;
+    private readonly int _leftMostX = -5;
+    private readonly int _rightMostX = 4;
+    private readonly int _bottomY = 1;
 
     [SerializeField]
-    private int minimumPlatformWidth = 3;
-    private int currentPlayerSection = 0;
-    private int platformSize = 5;
-    public int sectionHeight = 20;
-    public int startSectionLevels = 20;
-    private int highestFloorReached;
+    private int _minimumPlatformWidth = 3;
+    private int _currentPlayerSection = 0;
+    private int _platformSize = 5;
+
+    // Keep sectionHeight and tilesetSwitchDivider as values possible to divide (section/tilesetSwitchDivider)
+    [SerializeField]
+    private int _sectionHeight = 20;
+    [SerializeField]
+    private int _loadSectionHeight = 20;
+    private int _currentLoadedSectionsMaxY = 0;
+    public int _startSectionLevels = 20;
+    private int _highestFloorReached;
+    private int _oldPlayerY;
+
+    [SerializeField]
+    private int _platformShrinkMagnitude = 2;
+    [SerializeField]
+    private int _cameraSpeedupMagnitude = 3;
+    [SerializeField]
+    private float _cameraSpeedUp = 0.2f;
+    [SerializeField]
+    private int _tilesetSwitchDivider = 100; // After how many levels tiles change
 
 
-    private GameObject player;
-    private RuleTile currentRuleBrush;
-    public RuleTile[] platformRuleTiles;
-    public RuleTile wallRuleTile;
-    public Tilemap platformTilemap;
-    public Tilemap wallsTilemap;
-    public Tilemap collisionWallsTilemap;
-    public GameObject levelIndicator;
-    public GameObject highestLevelReachedAsset;
-    public GameObject playerCamera;
+    private GameObject _player;
+    private RuleTile _currentRuleBrush;
+    public RuleTile[] PlatformRuleTiles;
+    public RuleTile WallRuleTile;
+    public Tilemap PlatformTilemap;
+    public Tilemap WallsTilemap;
+    public Tilemap CollisionWallsTilemap;
+    public GameObject LevelIndicator;
+    public GameObject HighestLevelReachedAsset;
+    public GameObject PlayerCamera;
 
     public GameObject Background;
 
@@ -37,68 +53,151 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
-        currentRuleBrush = platformRuleTiles[0];
-        player = GameObject.FindWithTag("Player");
-        highestFloorReached = GameManager.Instance.HighestFloorReached;
+        _currentRuleBrush = PlatformRuleTiles[0];
+        _currentPlayerSection = 0;
+        _player = GameObject.FindWithTag("Player");
+        _oldPlayerY = Mathf.RoundToInt(PlayerCamera.transform.position.y);
+        _highestFloorReached = GameManager.Instance.HighestFloorReached;
+        _currentLoadedSectionsMaxY = 0;
         GeneratePlatforms();
     }
 
     private void FixedUpdate()
     {
-        UpdatePlatformsBasedOnPlayerPosition();
+        //UpdatePlatformsBasedOnPlayerPosition();
     }
 
     private void UpdatePlatformsBasedOnPlayerPosition()
     {
-        if (player != null)
+        if (_player != null)
         {
-            int playerY = Mathf.RoundToInt(playerCamera.transform.position.y);
-            if (playerY > (currentPlayerSection * sectionHeight + (sectionHeight / 2)))
+            int playerCameraY = Mathf.RoundToInt(PlayerCamera.transform.position.y);
+
+            if (playerCameraY > _oldPlayerY && playerCameraY > (_currentLoadedSectionsMaxY - _loadSectionHeight))
             {
-                //workswonky for some reason...
-                GeneratePlatforms((sectionHeight + 1) + sectionHeight * (currentPlayerSection), (sectionHeight) + sectionHeight * (currentPlayerSection + 1));
-                currentPlayerSection++;
-                if (currentPlayerSection >= 1 && currentPlayerSection < platformRuleTiles.Length)
+                if (IsPlatformsLoadNeeded(playerCameraY))
                 {
-                    currentRuleBrush = platformRuleTiles[currentPlayerSection];
-                }
+                    //workswonky for some reason...
+                    int fromLevel = _currentLoadedSectionsMaxY + 1;
+                    int toLevel = fromLevel + _loadSectionHeight;
+                    
+                    if (IsPlayerSectionIncreaseNeeded(playerCameraY))
+                    {
+                        _currentPlayerSection++;                        
 
-                if (platformSize >= minimumPlatformWidth && currentPlayerSection % 5 == 0)
-                    platformSize--;
+                    }
+                    
+                    if (IsCameraSpeedIncreaseNeeded())
+                    {
+                        PlayerCamera.GetComponent<FollowCamera>().cameraSpeed += _cameraSpeedUp;
+                        Debug.Log("Camera Speed: " + PlayerCamera.GetComponent<FollowCamera>().cameraSpeed);
+                    }
 
-                if (currentPlayerSection % 3 == 0)
-                {
-                    playerCamera.GetComponent<FollowCamera>().cameraSpeed += 0.2f;
+                    GeneratePlatforms(fromLevel , toLevel );
                 }
+                _oldPlayerY = playerCameraY;
+
+                CleanupGrid();
             }
 
         }
     }
 
+    private void CleanupGrid()
+    {
+        // clean everything from below current section
+
+        for (int i = (_currentPlayerSection-1) * _sectionHeight; i > 0; i--)
+        {
+            for (int j = _leftMostX - 6; j < _leftMostX; j++)
+            {
+                WallsTilemap.SetTile(new Vector3Int(j, i, 0), null);
+            }
+            for (int j = _leftMostX; j < _rightMostX +1; j++)
+            {
+                PlatformTilemap.SetTile(new Vector3Int(j, i, 0), null);
+            }
+            for (int j = _rightMostX + 1; j < _rightMostX + 7; j++)
+            {
+                WallsTilemap.SetTile(new Vector3Int(j, i, 0), null);
+            }
+        }
+    }
+
+    private bool IsCameraSpeedIncreaseNeeded()
+    {
+        return _currentPlayerSection % _cameraSpeedupMagnitude == 0 && (_currentPlayerSection * _sectionHeight) % _tilesetSwitchDivider == 0;
+    }
+
+    private bool IsPlatfromSizeShrinkNeeded(int playerY)
+    {
+        //return _currentPlayerSection >= (_sectionHeight / _tilesetSwitchDivider) && playerY % (_sectionHeight * _currentPlayerSection) == 0 && _platformSize >= _minimumPlatformWidth && _currentPlayerSection % _platformShrinkMagnitude == 0 /*&& (_currentPlayerSection * _sectionHeight) % _tilesetSwitchDivider == 0*/;
+        return _platformSize >= _minimumPlatformWidth && _currentPlayerSection >= (_sectionHeight / _tilesetSwitchDivider) && _currentPlayerSection % _platformShrinkMagnitude == 0 /*&& (_currentPlayerSection * _sectionHeight) % _tilesetSwitchDivider == 0*/;
+    }
+
+    private bool IsPlayerSectionIncreaseNeeded(int playerY)
+    {
+        return playerY > ((_currentPlayerSection + 1) * _sectionHeight);
+    }
+
+    private bool IsRuleBrushSwitchNeeded(int y)
+    {
+        return _currentPlayerSection >= (_tilesetSwitchDivider/_sectionHeight) && Mathf.CeilToInt(_currentPlayerSection / (_tilesetSwitchDivider / _sectionHeight)) < PlatformRuleTiles.Length && y % _tilesetSwitchDivider == 0;
+    }
+
+    /// <summary>
+    /// Load happens when _player Y position is larger than halfway through _loadSectionHeight for latest loadSection
+    /// </summary>
+    /// <param name="playerY"></param>
+    /// <returns></returns>
+    private bool IsPlatformsLoadNeeded(int playerY)
+    {
+        return playerY > (_currentLoadedSectionsMaxY - _loadSectionHeight);
+    }
+
     private void GeneratePlatforms()
     {
-        GeneratePlatforms(bottomY, sectionHeight);
+        GeneratePlatforms(_bottomY, _loadSectionHeight);
     }
 
     private void GeneratePlatforms(int fromY,int toY)
     {
+        PlaceBackground(fromY);        
         for (int y = fromY; y <= toY; y++)
         {
-            PlaceWalls(leftMostX - 6, leftMostX, y);
+            PlaceWalls(_leftMostX - 6, _leftMostX, y);
+
+            if (IsRuleBrushSwitchNeeded(y))
+            {
+                int divider = _tilesetSwitchDivider / _sectionHeight;
+                int brushNr = Mathf.FloorToInt(_currentPlayerSection / divider);
+                _currentRuleBrush = PlatformRuleTiles[brushNr];
+            }
+            
+            if (y > 0 && y % (_sectionHeight) == 0)
+            {
+                if (IsPlatfromSizeShrinkNeeded(y))
+                {
+                    _platformSize--;
+                    Debug.Log("Platform Size: " + _platformSize);
+                }
+            }
 
             // Section division 
-            if (y > 0 && y % (sectionHeight) == 0)
+
+            if (y > 0 && y % (_sectionHeight) == 0)
             {
                 PlaceSectionDivision(y);
+                
             }
             else
             {
                 PlaceRandomPlatforms(y);
             }
             PlaceCoins(y);
-            PlaceWalls(rightMostX + 1, rightMostX + 7, y);            
+            PlaceWalls(_rightMostX + 1, _rightMostX + 7, y);            
         }
-        PlaceBackground(fromY);        
+        _currentLoadedSectionsMaxY = toY;
     }
 
     private void PlaceCoins(int y)
@@ -115,7 +214,7 @@ public class LevelGenerator : MonoBehaviour
         }
 
         int spot = 0;
-        for (int x = leftMostX; x <= rightMostX; x ++)
+        for (int x = _leftMostX; x <= _rightMostX; x ++)
         {
             if (coinMask[spot] != 0)
             {
@@ -147,22 +246,26 @@ public class LevelGenerator : MonoBehaviour
     {
         for (int x = from; x < to; x++)
         {
-            wallsTilemap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
+            WallsTilemap.SetTile(new Vector3Int(x, y, 0), WallRuleTile);
         }
     }
 
     private void PlaceSectionDivision(int y)
     {
-        for (int x = leftMostX; x <= rightMostX; x++)
+        for (int x = _leftMostX; x <= _rightMostX; x++)
         {
-            platformTilemap.SetTile(new Vector3Int(x, y, 0), currentRuleBrush);
+            PlatformTilemap.SetTile(new Vector3Int(x, y, 0), _currentRuleBrush);
+            PlaceLevelIndicator(y, x);
+        }
+    }
 
-            if (x == (leftMostX + rightMostX) / 2 && y > 0)
-            {
-                GameObject go = Instantiate(levelIndicator, new Vector3(x, y, 0), Quaternion.identity);
-                LevelText lt = go.GetComponent<LevelText>();
-                lt.SetText(y.ToString());
-            }
+    private void PlaceLevelIndicator(int y, int x)
+    {
+        if (x == (_leftMostX + _rightMostX) / 2 && y > 0)
+        {
+            GameObject go = Instantiate(LevelIndicator, new Vector3(x, y, 0), Quaternion.identity);
+            LevelText lt = go.GetComponent<LevelText>();
+            lt.SetText(y.ToString());
         }
     }
 
@@ -176,29 +279,35 @@ public class LevelGenerator : MonoBehaviour
 
         while (!isPlaceable)
         {
-            leftEdgeOfPlatform = UnityEngine.Random.Range(leftMostX, rightMostX);
+            leftEdgeOfPlatform = UnityEngine.Random.Range(_leftMostX, _rightMostX);
 
-            if (leftEdgeOfPlatform+platformSize <= rightMostX)
+            if (leftEdgeOfPlatform+_platformSize <= _rightMostX)
             {
                 isPlaceable = true;
             }
         }
 
-        for (int x = leftEdgeOfPlatform; x <= leftEdgeOfPlatform + platformSize; x += 1)
+        for (int x = leftEdgeOfPlatform; x <= leftEdgeOfPlatform + _platformSize; x += 1)
         {
-            if (y == highestFloorReached && x == leftEdgeOfPlatform + 1 ) 
-            {
-                // for now place flag for highest reached floor on second from left
-                GameObject go = Instantiate(highestLevelReachedAsset, new Vector3(x, y+1, 0), Quaternion.identity); // +1 for y, because of difference between grid and coord system
-                LevelText lt = go.GetComponent<LevelText>();
-                lt.SetText(y.ToString());
-            }
-            platformTilemap.SetTile(new Vector3Int(x, y, 0), currentRuleBrush);
+            PlaceHighestLevelReachedSign(y, leftEdgeOfPlatform, x);
+            PlatformTilemap.SetTile(new Vector3Int(x, y, 0), _currentRuleBrush);
+        }
+    }
+
+    private void PlaceHighestLevelReachedSign(int y, int leftEdgeOfPlatform, int x)
+    {
+        if (y == _highestFloorReached && x == leftEdgeOfPlatform + 1)
+        {
+            // for now place flag for highest reached floor on second from left
+            GameObject go = Instantiate(HighestLevelReachedAsset, new Vector3(x, y + 1, 0), Quaternion.identity); // +1 for y, because of difference between grid and coord system
+            LevelText lt = go.GetComponent<LevelText>();
+            lt.SetText(y.ToString());
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdatePlatformsBasedOnPlayerPosition();
     }
 }

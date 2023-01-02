@@ -3865,6 +3865,16 @@ Tilemap:
   m_GameObject: {fileID: 608666843}
   m_Enabled: 1
   m_Tiles:
+  - first: {x: -6, y: 0, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 0
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: -5, y: 0, z: 0}
     second:
       serializedVersion: 2
@@ -3975,16 +3985,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 6, y: 0, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 12
@@ -4058,20 +4058,28 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 608666848}
     m_ColliderPaths:
-    - - X: -50000000
-        Y: 0
-      - X: 70000000
-        Y: 0
-      - X: 70000000
-        Y: 10000000
-      - X: -50000000
-        Y: 10000000
+    - - X: -60000100
+        Y: 10000041
+      - X: -60000100
+        Y: -41
+      - X: -60000041
+        Y: -100
+      - X: 60000041
+        Y: -100
+      - X: 60000100
+        Y: -41
+      - X: 60000100
+        Y: 10000041
+      - X: 60000041
+        Y: 10000100
+      - X: -60000041
+        Y: 10000100
   m_CompositePaths:
     m_Paths:
-    - - {x: 6.9999704, y: 0}
-      - {x: 6.9999704, y: 1}
-      - {x: -5, y: 0.99997073}
-      - {x: -4.999971, y: 0}
+    - - {x: 5.9999747, y: -0.00001}
+      - {x: 5.9999747, y: 1.00001}
+      - {x: -6.00001, y: 0.9999748}
+      - {x: -5.9999747, y: -0.00001}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!19719996 &608666848
@@ -11137,7 +11145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: defc43e6e7a894246a1a6002ea6c98e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountToPool: 2
+  amountToPool: 4
   backgroundPrefab: {fileID: 5276904701021581381, guid: 469659e473e2f5e4483598742c6104c3, type: 3}
 --- !u!4 &1304378773
 Transform:
@@ -11944,28 +11952,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5609609057d288e45b2094ec89c7f9c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumPlatformWidth: 3
-  sectionHeight: 100
-  startSectionLevels: 0
-  platformRuleTiles:
+  _minimumPlatformWidth: 2
+  _sectionHeight: 50
+  _loadSectionHeight: 20
+  _startSectionLevels: 0
+  _platformShrinkMagnitude: 6
+  _cameraSpeedupMagnitude: 3
+  _cameraSpeedUp: 0.2
+  _tilesetSwitchDivider: 100
+  PlatformRuleTiles:
   - {fileID: 11400000, guid: 982f531f9f1d0d747a59371ac9cc486b, type: 2}
   - {fileID: 11400000, guid: 016ad1e39661e294691b778f80c21ec5, type: 2}
   - {fileID: 11400000, guid: 39b155418d2aca94e88c38a6c174270d, type: 2}
   - {fileID: 11400000, guid: 1cf6e3d8bee15b44d8c1970e3c0de148, type: 2}
-  - {fileID: 11400000, guid: 04b16bbc12c798f4abe4311fea5dcd11, type: 2}
   - {fileID: 11400000, guid: 5b45eb3f380e22e4899ca06e6c81b3f9, type: 2}
-  - {fileID: 11400000, guid: 230dc91bb78c32344b0c50b835f660a8, type: 2}
+  - {fileID: 11400000, guid: 04b16bbc12c798f4abe4311fea5dcd11, type: 2}
   - {fileID: 11400000, guid: 46cbffc7bed93f848b547bb78935edae, type: 2}
-  - {fileID: 11400000, guid: 740fd811111817f44a91a1bbf5210693, type: 2}
   - {fileID: 11400000, guid: d809d03c54a1eee42a61103706520f54, type: 2}
+  - {fileID: 11400000, guid: 230dc91bb78c32344b0c50b835f660a8, type: 2}
+  - {fileID: 11400000, guid: 740fd811111817f44a91a1bbf5210693, type: 2}
   - {fileID: 11400000, guid: 69880d76c2ea27d41b288d06687c74f0, type: 2}
-  wallRuleTile: {fileID: 11400000, guid: a55a9279a24b9c8468e89435d6cd22ec, type: 2}
-  platformTilemap: {fileID: 596520096}
-  wallsTilemap: {fileID: 588188933}
-  collisionWallsTilemap: {fileID: 190738846}
-  levelIndicator: {fileID: 7219269488327993074, guid: 194b24e7b7d07854f9d5ae22467a9083, type: 3}
-  highestLevelReachedAsset: {fileID: 7219269488327993074, guid: 8eeb4c4299c362d4abcb5b0355d2512b, type: 3}
-  playerCamera: {fileID: 519420028}
+  WallRuleTile: {fileID: 11400000, guid: a55a9279a24b9c8468e89435d6cd22ec, type: 2}
+  PlatformTilemap: {fileID: 596520096}
+  WallsTilemap: {fileID: 588188933}
+  CollisionWallsTilemap: {fileID: 190738846}
+  LevelIndicator: {fileID: 7219269488327993074, guid: 194b24e7b7d07854f9d5ae22467a9083, type: 3}
+  HighestLevelReachedAsset: {fileID: 7219269488327993074, guid: 8eeb4c4299c362d4abcb5b0355d2512b, type: 3}
+  PlayerCamera: {fileID: 519420028}
   Background: {fileID: 5276904701021581381, guid: 469659e473e2f5e4483598742c6104c3, type: 3}
   CoinObject: {fileID: 1387292587009814895, guid: 0ac0e330da9798742a71ad2f632497c7, type: 3}
 --- !u!4 &1710517071
