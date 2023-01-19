@@ -186,6 +186,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c2d611ca-3f1a-410d-a424-24b0a506b486",
+                    "path": "<Touchscreen>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c1f7a91b-d0fd-4a62-997e-7fb9b69bf235",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -296,6 +307,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5cd7fd91-1428-460a-98bc-159a709a20f1",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "230bfd54-52a5-48ca-808a-d6d2aab365ef",
                     "path": "*/{Cancel}",
                     "interactions": "",
@@ -312,6 +334,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d13895a-248c-4bee-be88-9c61326c34b0",
+                    "path": "*/{Back}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
