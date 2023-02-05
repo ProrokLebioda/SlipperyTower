@@ -56,8 +56,9 @@ public class GameManager : MonoBehaviour
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
         return IsMobile();
-#endif
+#else
         return false;
+#endif
     }
     #endregion
     private void Awake()
