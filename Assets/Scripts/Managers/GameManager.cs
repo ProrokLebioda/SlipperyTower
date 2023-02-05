@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameMenu;
     [SerializeField] private GameObject comboBar;
     [SerializeField] private GameObject highscoreAdd;
+    [SerializeField] private GameObject touchControls;
 
     // Pause menu
     [SerializeField] private GameObject _pauseMenu;
@@ -46,11 +48,32 @@ public class GameManager : MonoBehaviour
 
     public GameObject particleObject;
 
+    #region WebGL is on mobile check
+    [DllImport("__Internal")]
+    private static extern bool IsMobile();
+
+    public bool isMobile()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        return IsMobile();
+#endif
+        return false;
+    }
+    #endregion
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
         Time.timeScale = 1.0f;
+
+        if (isMobile())
+        {
+            touchControls.SetActive(true);
+        }
+        else
+        {
+            touchControls.SetActive(false);
+        }
 
         particleObject.SetActive(false);
         LoadScores();
